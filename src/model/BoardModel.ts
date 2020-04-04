@@ -1,8 +1,8 @@
 import { BoardPosition } from "./BoardPosition";
 import { ChessFactory } from "./ChessPieces/ChessFactory";
 import { Player } from "./Player";
-import {ChessPiece} from "./ChessPieces/ChessPiece";
-import {PieceType} from "./ChessPieces/PieceType";
+import { ChessPiece } from "./ChessPieces/ChessPiece";
+import { PieceType } from "./ChessPieces/PieceType";
 
 export class BoardModel {
   private _positions: BoardPosition[][] = new Array(8);
@@ -36,13 +36,20 @@ export class BoardModel {
     );
   }
 
-  public selectPosition(x?: number, y?: number): boolean {
-    if (!x || !y) {
+  public selectPosition(x: number, y: number): boolean {
+    const position = this._positions[x][y];
+    if (!this._selected) {
+      if (position.chessPiece) {
+        this._selected = position;
+        return true;
+      }
+      return false;
+    } else if (this._selected.x == position.x && this._selected.y == y) {
       this._selected = null;
+      return true;
     } else {
-      this._selected = this._positions[x][y];
+      return false;
     }
-    return !!this._selected?.chessPiece;
   }
 
   public getReachableForPosition(x: number, y: number) {

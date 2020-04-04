@@ -62,36 +62,34 @@ export class BoardView {
     this.board.children[x].children[y].addEventListener("click", eventListener);
   }
 
-  public selectSquare(x: number, y: number): void {
-    // console.log(this.board);
-    // console.log(`x:${x}, y:${y}`);
+  public selectSquare(x: number, y: number, positions: BoardPosition[]): void {
     x++;
     if (this.selectedSquare === this.board.children[8 - y].children[x]) {
       this.selectedSquare.classList.remove("selected");
       this.selectedSquare = null;
+      this.highlightSquares(positions);
     } else if (!this.selectedSquare) {
       this.selectedSquare = this.board.children[8 - y].children[x];
       this.selectedSquare.classList.add("selected");
+      this.highlightSquares(positions);
     }
-    // if (this.selectedSquare) {
-    //   this.selectedSquare.classList.remove("selected");
-    // }
-    // x++; // toto tu musí být, jinak mi to háže nullpointery
   }
 
   public highlightSquares(positions: BoardPosition[]) {
     if (this.highlightedSquares.length === 0) {
       for (const position of positions) {
-        const square = this.getSquare(
-          position.x,
-          position.y
-        );
-        square.classList.add("highlighted");
+        const square = this.getSquare(position.x, position.y);
+        if (position.chessPiece) {
+          square.classList.add("highlighted-enemy");
+        } else {
+          square.classList.add("highlighted");
+        }
         this.highlightedSquares.push(square);
       }
     } else {
       for (const square of this.highlightedSquares) {
         square.classList.remove("highlighted");
+        square.classList.remove("highlighted-enemy");
       }
       this.highlightedSquares = [];
     }

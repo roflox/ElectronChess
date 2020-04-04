@@ -11,8 +11,7 @@ export class BoardController {
       const x = this.id[0];
       const y = this.id[1];
       if (bModel.selectPosition(x, y)) {
-        bView.selectSquare(x, y);
-        bView.highlightSquares(bModel.getReachableForPosition(x, y));
+        bView.selectSquare(x, y, bModel.getReachableForPosition(x, y));
       }
     });
   }
