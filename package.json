@@ -1,0 +1,19 @@
+{
+  "name": "chess-game",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "npm run build && electron ./dist/main.js"
+  },
+  "devDependencies": {
+    "electron": "^8.2.0",
+    "typescript": "latest",
+    "prettier": "^1.19.1",
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-import": "^2.19.1"
+  }
+}

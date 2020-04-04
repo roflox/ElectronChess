@@ -1,0 +1,53 @@
+#chessboard {
+  width: 800px;
+  height: 800px;
+  margin: 20px;
+  border: 25px solid #333;
+}
+td {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  width: 80px;
+  height: 80px;
+  float: left;
+  font-size: 50px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  /*border-collapse: collapse;*/
+}
+.black {
+  background-color: #d18b47;
+}
+.white {
+  background-color: #ffce9e;
+}
+
+.black:hover {
+  background-color: #ffcd53;
+}
+
+.white:hover {
+  background-color: #ffcd53;
+}
+/*tr:nth-child(even) td:nth-child(even), tr:nth-child(odd) td:nth-child(odd) {*/
+/*  background: grey;*/
+/*}*/
+/*tr:nth-child(odd) td:nth-child(even), tr:nth-child(even) td:nth-child(odd) {*/
+/*  background: white;*/
+/*}*/
+
+.selected {
+  /*border: green;*/
+  /*border: 1px solid green;*/
+  background-color: green;
+}
+.selected:hover {
+  /*border: green;*/
+  /*border: 1px solid green;*/
+  background-color: #598000;
+}
