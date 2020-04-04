@@ -51,3 +51,87 @@ td {
   /*border: 1px solid green;*/
   background-color: #598000;
 }
+
+.pawn-black {
+  background-image: url(./icons/black/Chess_pdt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.pawn-white {
+  background-image: url(./icons/white/Chess_plt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.rook-black {
+  background-image: url(./icons/black/Chess_rdt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.rook-white {
+  background-image: url(./icons/white/Chess_rlt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.knight-black {
+  background-image: url(./icons/black/Chess_ndt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.knight-white {
+  background-image: url(./icons/white/Chess_nlt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.bishop-black {
+  background-image: url(./icons/black/Chess_bdt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.bishop-white {
+  background-image: url(./icons/white/Chess_blt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.queen-black {
+  background-image: url(./icons/black/Chess_qdt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.queen-white {
+  background-image: url(./icons/white/Chess_qlt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.king-black {
+  background-image: url(./icons/black/Chess_kdt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.king-white {
+  background-image: url(./icons/white/Chess_klt45.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}

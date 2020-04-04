@@ -31,4 +31,8 @@ export class ChessPiece {
   get chessPieceColor(): Color {
     return this._chessPieceColor;
   }
+
+  public toString():string{
+    return `${this._pieceType}-${this._chessPieceColor}`;
+  }
 }

@@ -5,13 +5,18 @@ import { Color } from "./Helper/Color";
 import {ChessFactory} from "./ChessPieces/ChessFactory";
 
 export class BoardModel {
-  private positions: BoardPosition[][] = new Array(8);
+  private _positions: BoardPosition[][] = new Array(8);
+
+
+  get positions(): Readonly<BoardPosition[][]> {
+    return this._positions;
+  }
 
   constructor() {
     for (let y = 0; y < 8; y++) {
-      this.positions[y] = [];
+      this._positions[y] = [];
       for (let x = 0; x < 8; x++) {
-        this.positions[y].push(new BoardPosition(x, y));
+        this._positions[y].push(new BoardPosition(x, y));
       }
     }
     // console.table(this.positions);
@@ -19,10 +24,10 @@ export class BoardModel {
     //   PieceType.Rook,
     //   Color.black
     // );
-    ChessFactory.newGamePreset(this.positions);
+    ChessFactory.newGamePreset(this._positions);
   }
 
   public getPositionOccupant(x: number, y: number) {
-    return this.positions[x][y].chessPiece;
+    return this._positions[x][y].chessPiece;
   }
 }
