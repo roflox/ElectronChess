@@ -51,7 +51,7 @@ export class BoardView {
   }
 
   public getSquare(x: number, y: number): Element {
-    return this.board.children[8 - y].children[x+1];
+    return this.board.children[8 - y].children[x + 1];
   }
 
   private addListenerForSquare(
@@ -64,13 +64,20 @@ export class BoardView {
 
   public selectSquare(x: number, y: number): void {
     // console.log(this.board);
-    console.log(`x:${x}, y:${y}`);
-    if (this.selectedSquare) {
+    // console.log(`x:${x}, y:${y}`);
+    x++;
+    if (this.selectedSquare === this.board.children[8 - y].children[x]) {
       this.selectedSquare.classList.remove("selected");
+      this.selectedSquare = null;
+    }else if(!this.selectedSquare){
+      this.selectedSquare = this.board.children[8 - y].children[x];
+      this.selectedSquare.classList.add("selected");
     }
-    x++; // toto tu musí být, jinak mi to háže nullpointery
-    this.selectedSquare = this.board.children[8 - y].children[x];
-    this.selectedSquare.classList.add("selected");
+    // if (this.selectedSquare) {
+    //   this.selectedSquare.classList.remove("selected");
+    // }
+    // x++; // toto tu musí být, jinak mi to háže nullpointery
+
   }
 
   public drawChessPieces(positions: Readonly<BoardPosition[][]>): void {
@@ -78,7 +85,7 @@ export class BoardView {
       for (let x = 0; x < positions[y].length; x++) {
         const position = positions[x][y];
         if (position.chessPiece) {
-            this.getSquare(x,y).classList.add(position.chessPiece.toString());
+          this.getSquare(x, y).classList.add(position.chessPiece.toString());
           // const square = this.getSquare(x,y);
         }
       }
