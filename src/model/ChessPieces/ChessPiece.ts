@@ -1,38 +1,67 @@
-import { PieceType } from "../Helper/PieceType";
-import { Color } from "../Helper/Color";
-import { BoardPosition } from "../Helper/BoardPosition";
-import { MovementStrategy } from "./MovementStrategy";
+import { PieceType } from "./PieceType";
+import { Color } from "./Color";
+import { BoardPosition } from "../BoardPosition";
+import { MovementStrategy } from "./strategies/MovementStrategy";
+import { Player } from "../Player";
+import { Bishop, King, Knight, Pawn, Queen, Rook } from "./strategies";
 
 export class ChessPiece {
-  private readonly _movementStrategy: MovementStrategy;
+  private _movementStrategy: MovementStrategy;
+  private _pieceType: PieceType;
+  private _moved: boolean = false;
 
-  public constructor(
-    private _pieceType: PieceType,
-    private _chessPieceColor: Color
-  ) {}
+  public constructor(pieceType: PieceType, private readonly _owner: Player) {
+    this.setStrategy(pieceType);
+  }
+
+  public upgrade(pieceType: PieceType) {
+    this.setStrategy(pieceType);
+  }
+
+  private setStrategy(pieceType: PieceType) {
+    this._pieceType = pieceType;
+    switch (pieceType) {
+      case PieceType.Rook:
+        this._movementStrategy = new Rook();
+        break;
+      case PieceType.Pawn:
+        this._movementStrategy = new Pawn();
+        break;
+      case PieceType.Bishop:
+        this._movementStrategy = new Bishop();
+        break;
+      case PieceType.King:
+        this._movementStrategy = new King();
+        break;
+      case PieceType.Knight:
+        this._movementStrategy = new Knight();
+        break;
+      case PieceType.Queen:
+        this._movementStrategy = new Queen();
+        break;
+    }
+  }
 
   public getReachablePositions(
     board: BoardPosition[][],
     boardPosition: BoardPosition
   ): BoardPosition[] {
-    return this._movementStrategy.getReachablePositions(board, boardPosition);
+    return this._movementStrategy.getReachablePositions(
+      board,
+      boardPosition,
+      this._owner
+    );
   }
 
-  //
-  // set position(position: Position) {
-  //   this._x = position.x;
-  //   this._y = position.y;
-  // }
-
-  get pieceType(): PieceType {
+  get type(): PieceType {
     return this._pieceType;
   }
 
-  get chessPieceColor(): Color {
-    return this._chessPieceColor;
+  get color(): Color {
+    return this._owner.color;
   }
 
-  public toString():string{
-    return `${this._pieceType}-${this._chessPieceColor}`;
+  public toString(): string {
+    return `${this._pieceType}-${this._owner.color}`;
   }
 }

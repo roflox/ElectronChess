@@ -1,4 +1,4 @@
-import { BoardPosition } from "../model/Helper/BoardPosition";
+import { BoardPosition } from "../model/BoardPosition";
 
 export class BoardView {
   private readonly board: HTMLElement;
