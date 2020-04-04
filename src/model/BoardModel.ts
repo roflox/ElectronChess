@@ -2,6 +2,7 @@ import { BoardPosition } from "./Helper/BoardPosition";
 import { PieceType } from "./Helper/PieceType";
 import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { Color } from "./Helper/Color";
+import {ChessFactory} from "./ChessPieces/ChessFactory";
 
 export class BoardModel {
   private positions: BoardPosition[][] = new Array(8);
@@ -14,10 +15,11 @@ export class BoardModel {
       }
     }
     // console.table(this.positions);
-    this.positions[1][1].chessPiece = new ChessPiece(
-      PieceType.Rook,
-      Color.black
-    );
+    // this.positions[1][1].chessPiece = new ChessPiece(
+    //   PieceType.Rook,
+    //   Color.black
+    // );
+    ChessFactory.newGamePreset(this.positions);
   }
 
   public getPositionOccupant(x: number, y: number) {

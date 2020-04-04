@@ -1,7 +1,6 @@
 import { PieceType } from "../Helper/PieceType";
 import { Color } from "../Helper/Color";
 import { BoardPosition } from "../Helper/BoardPosition";
-import { BoardState } from "../Helper/BoardState";
 import { MovementStrategy } from "./MovementStrategy";
 
 export class ChessPiece {
@@ -13,13 +12,10 @@ export class ChessPiece {
   ) {}
 
   public getReachablePositions(
-    boardState: BoardState,
+    board: BoardPosition[][],
     boardPosition: BoardPosition
   ): BoardPosition[] {
-    return this._movementStrategy.getReachablePositions(
-      boardState,
-      boardPosition
-    );
+    return this._movementStrategy.getReachablePositions(board, boardPosition);
   }
 
   //
