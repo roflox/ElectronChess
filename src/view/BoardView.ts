@@ -83,8 +83,8 @@ export class BoardView {
     if (this.highlightedSquares.length === 0) {
       for (const position of positions) {
         const square = this.getSquare(
-          position.coordinates.x,
-          position.coordinates.y
+          position.x,
+          position.y
         );
         square.classList.add("highlighted");
         this.highlightedSquares.push(square);

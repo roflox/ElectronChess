@@ -1,7 +1,8 @@
 import { BoardPosition } from "./BoardPosition";
-import { Color } from "./ChessPieces/Color";
 import { ChessFactory } from "./ChessPieces/ChessFactory";
 import { Player } from "./Player";
+import {ChessPiece} from "./ChessPieces/ChessPiece";
+import {PieceType} from "./ChessPieces/PieceType";
 
 export class BoardModel {
   private _positions: BoardPosition[][] = new Array(8);
@@ -20,13 +21,14 @@ export class BoardModel {
         this._positions[x].push(new BoardPosition(x, y));
       }
     }
-    this._whitePlayer = new Player(Color.white);
-    this._blackPlayer = new Player(Color.black);
+    const players = Player.getTwoPlayers();
+    this._blackPlayer = players.black;
+    this._whitePlayer = players.white;
     // console.table(this.positions);
-    // this.positions[1][1].chessPiece = new ChessPiece(
-    //   PieceType.Rook,
-    //   Color.black
-    // );
+    this.positions[0][2].chessPiece = new ChessPiece(
+      PieceType.Queen,
+      this._whitePlayer
+    );
     ChessFactory.newGamePreset(
       this._positions,
       this._whitePlayer,

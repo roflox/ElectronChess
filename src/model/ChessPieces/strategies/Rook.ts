@@ -10,8 +10,8 @@ export class Rook implements MovementStrategy {
   ): BoardPosition[] {
     let position: BoardPosition;
     const reachable: BoardPosition[] = [];
-    const yPos = piecePosition.coordinates.y;
-    const xPos = piecePosition.coordinates.x;
+    const yPos = piecePosition.y;
+    const xPos = piecePosition.x;
     console.log(`x:${xPos},y:${yPos}`);
     for (let i = xPos - 1; i > -1; i--) {
       position = board[i][yPos];

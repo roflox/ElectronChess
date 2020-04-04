@@ -10,7 +10,10 @@ export class ChessPiece {
   private _pieceType: PieceType;
   private _moved: boolean = false;
 
-  public constructor(pieceType: PieceType, private readonly _owner: Player) {
+  public constructor(
+    pieceType: PieceType,
+    private readonly _owner: Player // private x: number, // private y: number
+  ) {
     this.setStrategy(pieceType);
   }
 

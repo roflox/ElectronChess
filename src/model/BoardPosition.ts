@@ -9,8 +9,13 @@ export class BoardPosition {
 
   constructor(private readonly _x: number, private readonly _y: number) {}
 
-  get coordinates(): { x: number; y: number } {
-    return { x: this._x, y: this._y };
+
+  get x(): number {
+    return this._x;
+  }
+
+  get y(): number {
+    return this._y;
   }
 
   get chessPiece(): ChessPiece {
