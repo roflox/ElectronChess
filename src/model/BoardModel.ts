@@ -34,12 +34,13 @@ export class BoardModel {
     );
   }
 
-  public selectPosition(x?: number, y?: number) {
+  public selectPosition(x?: number, y?: number): boolean {
     if (!x || !y) {
       this._selected = null;
     } else {
       this._selected = this._positions[x][y];
     }
+    return !!this._selected?.chessPiece;
   }
 
   public getReachableForPosition(x: number, y: number) {

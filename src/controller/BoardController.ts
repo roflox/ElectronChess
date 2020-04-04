@@ -8,20 +8,12 @@ export class BoardController {
     bView.renderBoard();
     bView.drawChessPieces(bModel.positions);
     bView.addEventListenerForSquares(function() {
-      // console.log(bModel.getPositionOccupant(this.id[0],this.id[1]));
-
       const x = this.id[0];
       const y = this.id[1];
-      // console.log(`x:${x},y:${y}`);
-      // console.log(bModel.getPosition(x, y));
-      // (() => {
-      //   // console.log(bModel.getReachableForPosition(x, y));
-      // })();
-      // console.log(bModel.getPositionOccupant(x, y));
-      // console.log(bModel.getReachableForPosition(x, y));
-      bModel.selectPosition(x,y);
-      console.log()
-      bView.selectSquare(bModel.);
+      if (bModel.selectPosition(x, y)) {
+        bView.selectSquare(x, y);
+        bView.highlightSquares(bModel.getReachableForPosition(x, y));
+      }
     });
   }
 }

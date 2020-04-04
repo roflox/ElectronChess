@@ -3,7 +3,7 @@ import { BoardPosition } from "../model/BoardPosition";
 export class BoardView {
   private readonly board: HTMLElement;
   private selectedSquare: Element;
-  private glowingSquares: Element[];
+  private highlightedSquares: Element[] = [];
 
   constructor(boardElement: string) {
     this.board = document.getElementById(boardElement);
@@ -69,7 +69,7 @@ export class BoardView {
     if (this.selectedSquare === this.board.children[8 - y].children[x]) {
       this.selectedSquare.classList.remove("selected");
       this.selectedSquare = null;
-    }else if(!this.selectedSquare){
+    } else if (!this.selectedSquare) {
       this.selectedSquare = this.board.children[8 - y].children[x];
       this.selectedSquare.classList.add("selected");
     }
@@ -77,7 +77,24 @@ export class BoardView {
     //   this.selectedSquare.classList.remove("selected");
     // }
     // x++; // toto tu musí být, jinak mi to háže nullpointery
+  }
 
+  public highlightSquares(positions: BoardPosition[]) {
+    if (this.highlightedSquares.length === 0) {
+      for (const position of positions) {
+        const square = this.getSquare(
+          position.coordinates.x,
+          position.coordinates.y
+        );
+        square.classList.add("highlighted");
+        this.highlightedSquares.push(square);
+      }
+    } else {
+      for (const square of this.highlightedSquares) {
+        square.classList.remove("highlighted");
+      }
+      this.highlightedSquares = [];
+    }
   }
 
   public drawChessPieces(positions: Readonly<BoardPosition[][]>): void {
