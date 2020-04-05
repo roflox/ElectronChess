@@ -64,14 +64,24 @@ export class BoardView {
 
   public selectSquare(x: number, y: number, positions: BoardPosition[]): void {
     x++;
-    if (this.selectedSquare === this.board.children[8 - y].children[x]) {
+    const square = this.board.children[8 - y].children[x];
+    if (this.selectedSquare === square) {
       this.selectedSquare.classList.remove("selected");
       this.selectedSquare = null;
       this.highlightSquares(positions);
     } else if (!this.selectedSquare) {
-      this.selectedSquare = this.board.children[8 - y].children[x];
+      this.selectedSquare = square;
       this.selectedSquare.classList.add("selected");
       this.highlightSquares(positions);
+    } else {
+      if (square.classList.contains("highlighted") || square.classList.contains("highlighted-enemy")){
+        this.selectedSquare.classList.remove("selected");
+        square.classList.remove(square.classList[1]);
+        square.classList.add(this.selectedSquare.classList[1]);
+        this.selectedSquare.classList.remove(this.selectedSquare.classList[1]);
+        this.selectedSquare = null;
+        this.highlightSquares(positions);
+      }
     }
   }
 
@@ -95,12 +105,17 @@ export class BoardView {
     }
   }
 
+  public replaceFigure(square:Element,){
+
+  }
+
   public drawChessPieces(positions: Readonly<BoardPosition[][]>): void {
     for (let y = 0; y < positions.length; y++) {
       for (let x = 0; x < positions[y].length; x++) {
         const position = positions[x][y];
         if (position.chessPiece) {
-          this.getSquare(x, y).classList.add(position.chessPiece.toString());
+          const square = this.getSquare(x,y);
+          square.classList.add(position.chessPiece.toString());
           // const square = this.getSquare(x,y);
         }
       }

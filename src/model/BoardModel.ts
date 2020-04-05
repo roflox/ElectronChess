@@ -29,6 +29,18 @@ export class BoardModel {
       PieceType.Queen,
       this._whitePlayer
     );
+    this.positions[5][3].chessPiece = new ChessPiece(
+      PieceType.Knight,
+      this._blackPlayer
+    );
+    this.positions[4][4].chessPiece = new ChessPiece(
+      PieceType.Bishop,
+      this._blackPlayer
+    );
+    this.positions[2][3].chessPiece = new ChessPiece(
+      PieceType.Rook,
+      this._whitePlayer
+    );
     ChessFactory.newGamePreset(
       this._positions,
       this._whitePlayer,
@@ -39,7 +51,7 @@ export class BoardModel {
   public selectPosition(x: number, y: number): boolean {
     const position = this._positions[x][y];
     if (!this._selected) {
-      if (position.chessPiece) {
+      if (position.chessPiece !== null) {
         this._selected = position;
         return true;
       }
@@ -48,15 +60,32 @@ export class BoardModel {
       this._selected = null;
       return true;
     } else {
-      return false;
+      if (
+        this.canMoveTo(
+          this._selected.x,
+          this._selected.y,
+          position.x,
+          position.y
+        )
+      ) {
+        this._selected.movePiece(position);
+        this._selected = null;
+      }
+      //todo tohle se mmožná dosere, a bude to dělat mrdky
+      return true;
+      // return false;
     }
   }
 
   public getReachableForPosition(x: number, y: number) {
-    return this._positions[x][y].chessPiece?.getReachablePositions(
-      this._positions,
-      this._positions[x][y]
-    );
+    if (this._positions[x][y].chessPiece) {
+      return this._positions[x][y].chessPiece?.getReachablePositions(
+        this._positions,
+        this._positions[x][y]
+      );
+    } else {
+      return null;
+    }
   }
 
   public getPosition(x: number, y: number): BoardPosition {
@@ -65,5 +94,23 @@ export class BoardModel {
 
   public getPositionOccupant(x: number, y: number) {
     return this._positions[x][y].chessPiece;
+  }
+
+  public canMoveTo(
+    startX: number,
+    startY: number,
+    targetX: number,
+    targetY: number
+  ): boolean {
+    const positions = this.getReachableForPosition(startX, startY);
+    if (!positions) {
+      return false;
+    }
+    for (const p of positions) {
+      if (p.x == targetX && p.y == targetY) {
+        return true;
+      }
+    }
+    return false;
   }
 }
