@@ -25,6 +25,8 @@ export class BoardModel {
     this._blackPlayer = players.black;
     this._whitePlayer = players.white;
     // console.table(this.positions);
+
+    //test purposes only
     this.positions[0][2].chessPiece = new ChessPiece(
       PieceType.Queen,
       this._whitePlayer
@@ -51,21 +53,31 @@ export class BoardModel {
   public selectPosition(
     x: number,
     y: number
-  ): { selected: BoardPosition; moving?: boolean; unselected?: boolean } {
+  ): {
+    selected: BoardPosition;
+    moving?: boolean;
+    unselected?: boolean;
+    unchanged?: boolean;
+  } {
     const position = this._positions[x][y];
     // console.log(position);
     if (!this._selected) {
       if (position.chessPiece) {
         this._selected = position;
+        return { selected: this._selected, unchanged: false, moving: false };
       }
     } else if (this._selected.x == x && this._selected.y == y) {
       const temp = this._selected;
       this._selected = null;
-      return { selected: temp, unselected: true };
+      return { selected: temp, unselected: true, unchanged: false };
     } else if (this.canMoveTo(this._selected.x, this._selected.y, x, y)) {
-      return { selected: this._selected, moving: true };
+      return { selected: this._selected, moving: true, unchanged: false };
     }
-    return { selected: this._selected, moving: false };
+    return {
+      selected: this._selected,
+      unchanged: true,
+      moving: false
+    };
   }
 
   public movePiece(x: number, y: number) {

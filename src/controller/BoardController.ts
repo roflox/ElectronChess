@@ -11,7 +11,7 @@ export class BoardController {
       const x = this.id[0];
       const y = this.id[1];
       const result = bModel.selectPosition(x, y);
-      if (result.selected) {
+      if (result.selected && !result.unchanged) {
         if (result.unselected) {
           bView.unhighlightSquares();
           bView.unselectSquare();
@@ -23,13 +23,8 @@ export class BoardController {
           bModel.movePiece(x, y);
           bView.unhighlightSquares();
           bView.unselectSquare();
+          //tady prohozeni hrace
         }
-        // if (result.moving === false) {
-
-        // } else  {
-
-        //   // bView.replaceFigure();
-        // }
       }
     });
   }
