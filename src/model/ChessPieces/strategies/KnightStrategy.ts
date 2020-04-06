@@ -2,7 +2,7 @@ import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
 
-export class Knight extends MovementStrategy {
+export class KnightStrategy extends MovementStrategy {
   getReachablePositions(
     board: BoardPosition[][],
     piecePosition: BoardPosition,

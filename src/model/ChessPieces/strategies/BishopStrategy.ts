@@ -2,7 +2,7 @@ import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
 
-export class Bishop extends MovementStrategy {
+export class BishopStrategy extends MovementStrategy {
   private fourthSectorBlocked = false;
   private thirdSectorBlocked = false;
   private secondSectorBlocked = false;

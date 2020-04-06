@@ -1,11 +1,11 @@
 import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
-import {Bishop, Rook} from "./index";
+import {BishopStrategy, RookStrategy} from "./index";
 
-export class Queen extends MovementStrategy {
-  private _bs = new Bishop();
-  private _rs = new Rook();
+export class QueenStrategy extends MovementStrategy {
+  private _bs = new BishopStrategy();
+  private _rs = new RookStrategy();
 
   getReachablePositions(
     board: BoardPosition[][],

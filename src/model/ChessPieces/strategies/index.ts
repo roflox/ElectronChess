@@ -1,8 +1,8 @@
-import { Pawn } from "./Pawn";
-import { Rook } from "./Rook";
-import { Queen } from "./Queen";
-import { King } from "./King";
-import { Knight } from "./Knight";
-import { Bishop } from "./Bishop";
+import { PawnStrategy } from "./PawnStrategy";
+import { RookStrategy } from "./RookStrategy";
+import { QueenStrategy } from "./QueenStrategy";
+import { KingStrategy } from "./KingStrategy";
+import { KnightStrategy } from "./KnightStrategy";
+import { BishopStrategy } from "./BishopStrategy";
 
-export { Pawn, Bishop, Rook, Queen, Knight, King };
+export { PawnStrategy, BishopStrategy, RookStrategy, QueenStrategy, KnightStrategy, KingStrategy };

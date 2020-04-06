@@ -2,7 +2,7 @@ import { BoardPosition } from "../../BoardPosition";
 import { MovementStrategy } from "./MovementStrategy";
 import { Player } from "../../Player";
 
-export class Rook implements MovementStrategy {
+export class RookStrategy implements MovementStrategy {
   getReachablePositions(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
@@ -12,51 +12,46 @@ export class Rook implements MovementStrategy {
     const reachable: BoardPosition[] = [];
     const yPos = piecePosition.y;
     const xPos = piecePosition.x;
-    console.log(`x:${xPos},y:${yPos}`);
     for (let i = xPos - 1; i > -1; i--) {
       position = board[i][yPos];
-      if (!position.chessPiece) {
-        reachable.push(position);
-      } else {
-        if (!piecePosition.samePieceColor(position)) {
-          reachable.push(position);
-        }
+      if (!this.addIfPossible(position, piecePosition, reachable)) {
         break;
       }
     }
     for (let i = xPos + 1; i < 8; i++) {
       position = board[i][yPos];
-      if (!position.chessPiece) {
-        reachable.push(position);
-      } else {
-        if (!piecePosition.samePieceColor(position)) {
-          reachable.push(position);
-        }
+      if (!this.addIfPossible(position, piecePosition, reachable)) {
         break;
       }
     }
     for (let i = yPos - 1; i > -1; i--) {
       position = board[xPos][i];
-      if (!position.chessPiece) {
-        reachable.push(position);
-      } else {
-        if (!piecePosition.samePieceColor(position)) {
-          reachable.push(position);
-        }
+      if (!this.addIfPossible(position, piecePosition, reachable)) {
         break;
       }
     }
     for (let i = yPos + 1; i < 8; i++) {
       position = board[xPos][i];
-      if (!position.chessPiece) {
-        reachable.push(position);
-      } else {
-        if (!piecePosition.samePieceColor(position)) {
-          reachable.push(position);
-        }
+      if (!this.addIfPossible(position, piecePosition, reachable)) {
         break;
       }
     }
     return reachable;
+  }
+
+  private addIfPossible(
+    targetPosition: BoardPosition,
+    currentPosition: BoardPosition,
+    reachable: BoardPosition[]
+  ): boolean {
+    if (!targetPosition.chessPiece) {
+      reachable.push(targetPosition);
+      return true;
+    } else {
+      if (!currentPosition.samePieceColor(targetPosition)) {
+        reachable.push(targetPosition);
+      }
+      return false;
+    }
   }
 }

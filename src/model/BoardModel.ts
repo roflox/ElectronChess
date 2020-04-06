@@ -48,33 +48,32 @@ export class BoardModel {
     );
   }
 
-  public selectPosition(x: number, y: number): boolean {
+  public selectPosition(
+    x: number,
+    y: number
+  ): { selected: BoardPosition; moving?: boolean; unselected?: boolean } {
     const position = this._positions[x][y];
+    // console.log(position);
     if (!this._selected) {
-      if (position.chessPiece !== null) {
+      if (position.chessPiece) {
         this._selected = position;
-        return true;
       }
-      return false;
-    } else if (this._selected.x == position.x && this._selected.y == y) {
+    } else if (this._selected.x == x && this._selected.y == y) {
+      const temp = this._selected;
       this._selected = null;
-      return true;
-    } else {
-      if (
-        this.canMoveTo(
-          this._selected.x,
-          this._selected.y,
-          position.x,
-          position.y
-        )
-      ) {
-        this._selected.movePiece(position);
-        this._selected = null;
-      }
-      //todo tohle se mmožná dosere, a bude to dělat mrdky
-      return true;
-      // return false;
+      return { selected: temp, unselected: true };
+    } else if (this.canMoveTo(this._selected.x, this._selected.y, x, y)) {
+      return { selected: this._selected, moving: true };
     }
+    return { selected: this._selected, moving: false };
+  }
+
+  public movePiece(x: number, y: number) {
+    const position = this._positions[x][y];
+    position.chessPiece = this._selected.chessPiece;
+    position.chessPiece.addMove(position);
+    this._selected.chessPiece = null;
+    this._selected = null;
   }
 
   public getReachableForPosition(x: number, y: number) {

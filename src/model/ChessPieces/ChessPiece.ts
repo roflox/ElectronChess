@@ -3,12 +3,19 @@ import { Color } from "./Color";
 import { BoardPosition } from "../BoardPosition";
 import { MovementStrategy } from "./strategies/MovementStrategy";
 import { Player } from "../Player";
-import { Bishop, King, Knight, Pawn, Queen, Rook } from "./strategies";
+import {
+  BishopStrategy,
+  KingStrategy,
+  KnightStrategy,
+  PawnStrategy,
+  QueenStrategy,
+  RookStrategy
+} from "./strategies";
 
 export class ChessPiece {
   private _movementStrategy: MovementStrategy;
   private _pieceType: PieceType;
-  private _moved: boolean = false;
+  private _moves: BoardPosition[] = [];
 
   public constructor(
     pieceType: PieceType,
@@ -25,22 +32,22 @@ export class ChessPiece {
     this._pieceType = pieceType;
     switch (pieceType) {
       case PieceType.Rook:
-        this._movementStrategy = new Rook();
+        this._movementStrategy = new RookStrategy();
         break;
       case PieceType.Pawn:
-        this._movementStrategy = new Pawn();
+        this._movementStrategy = new PawnStrategy();
         break;
       case PieceType.Bishop:
-        this._movementStrategy = new Bishop();
+        this._movementStrategy = new BishopStrategy();
         break;
       case PieceType.King:
-        this._movementStrategy = new King();
+        this._movementStrategy = new KingStrategy();
         break;
       case PieceType.Knight:
-        this._movementStrategy = new Knight();
+        this._movementStrategy = new KnightStrategy();
         break;
       case PieceType.Queen:
-        this._movementStrategy = new Queen();
+        this._movementStrategy = new QueenStrategy();
         break;
     }
   }
@@ -54,6 +61,18 @@ export class ChessPiece {
       boardPosition,
       this._owner
     );
+  }
+
+  get moved(): boolean {
+    return this._moves.length !== 0;
+  }
+
+  public addMove(boardPosition: BoardPosition) {
+    this._moves.push(boardPosition);
+  }
+
+  get moves(): BoardPosition[] {
+    return this._moves;
   }
 
   get type(): PieceType {
