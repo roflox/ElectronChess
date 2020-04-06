@@ -6,11 +6,11 @@ let mainWindow: Electron.BrowserWindow;
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 600,
+    height: 900,
     webPreferences: {
       preload: path.join(__dirname, "preload.js")
     },
-    width: 800
+    width: 900
   });
 
   // and load the index.html of the app.
@@ -18,7 +18,7 @@ function createWindow() {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-
+  mainWindow.setMenu(null);
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
     // Dereference the window object, usually you would store windows
@@ -26,6 +26,7 @@ function createWindow() {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+  mainWindow.maximize();
 }
 
 // This method will be called when Electron has finished
