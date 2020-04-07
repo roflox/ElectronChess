@@ -5,16 +5,18 @@ import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { PieceType } from "./ChessPieces/PieceType";
 
 export class BoardModel {
-  private _positions: BoardPosition[][] = new Array(8);
-  private readonly _whitePlayer: Player;
-  private readonly _blackPlayer: Player;
+  private _positions: BoardPosition[][];
+  private _whitePlayer: Player;
+  private _blackPlayer: Player;
   private _selected: BoardPosition;
 
   get positions(): Readonly<BoardPosition[][]> {
     return this._positions;
   }
 
-  constructor() {
+  private newGame(): void {
+    this._positions = new Array(8);
+    this._selected = null;
     for (let x = 0; x < 8; x++) {
       this._positions[x] = [];
       for (let y = 0; y < 8; y++) {
@@ -24,8 +26,16 @@ export class BoardModel {
     const players = Player.getTwoPlayers();
     this._blackPlayer = players.black;
     this._whitePlayer = players.white;
-    // console.table(this.positions);
+    ChessFactory.newGamePreset(
+      this._positions,
+      this._whitePlayer,
+      this._blackPlayer
+    );
+  }
 
+  constructor() {
+    // console.table(this.positions);
+    this.newGame();
     //test purposes only
     this.positions[0][2].chessPiece = new ChessPiece(
       PieceType.Queen,
@@ -43,11 +53,10 @@ export class BoardModel {
       PieceType.Rook,
       this._whitePlayer
     );
-    ChessFactory.newGamePreset(
-      this._positions,
-      this._whitePlayer,
-      this._blackPlayer
-    );
+  }
+
+  public restart() {
+    this.newGame();
   }
 
   public selectPosition(
@@ -82,10 +91,24 @@ export class BoardModel {
 
   public movePiece(x: number, y: number) {
     const position = this._positions[x][y];
+    if (
+      !position.chessPiece &&
+      this._selected.chessPiece.type === PieceType.Pawn &&
+      position.enpassant
+    ) {
+      if (position.enpassant) {
+        position.enpassant.chessPiece = null;
+      }
+    }
     position.chessPiece = this._selected.chessPiece;
     position.chessPiece.addMove(position);
     this._selected.chessPiece = null;
     this._selected = null;
+    for (const row of this._positions) {
+      for (const position of row) {
+        position.enpassant = null;
+      }
+    }
   }
 
   public getReachableForPosition(x: number, y: number) {

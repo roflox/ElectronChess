@@ -1,7 +1,9 @@
 import { app, BrowserWindow } from "electron";
 import * as path from "path";
+import * as electron from "electron";
 
 let mainWindow: Electron.BrowserWindow;
+const globalShortcut = electron.globalShortcut;
 
 function createWindow() {
   // Create the browser window.
@@ -25,6 +27,14 @@ function createWindow() {
     // in an array if your app supports multi windows, this is the time
     // when you should delete the corresponding element.
     mainWindow = null;
+  });
+  globalShortcut.register("f5", function() {
+    console.log("f5 is pressed");
+    mainWindow.reload();
+  });
+  globalShortcut.register("CommandOrControl+R", function() {
+    console.log("CommandOrControl+R is pressed");
+    mainWindow.reload();
   });
   mainWindow.maximize();
 }

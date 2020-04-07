@@ -49,16 +49,22 @@ export class PawnStrategy extends MovementStrategy {
     if (y === 4 || y === 5) {
       //left
       if (x !== 0) {
-        const left = board[x - 1][y];
-        if (this.checkForEnPassant(left, piecePosition)) {
-          reachable.push(left);
+        const left = board[x - 1][y - -1 * direction];
+        if (this.checkForEnPassant(board[x - 1][y], piecePosition)) {
+          if (!left.chessPiece) {
+            reachable.push(left);
+            left.enpassant = board[x - 1][y];
+          }
         }
       }
       // right
       if (x !== 7) {
-        const right = board[x + 1][y];
-        if (this.checkForEnPassant(right, piecePosition)) {
-          reachable.push(right);
+        const right = board[x + 1][y - -1 * direction];
+        if (this.checkForEnPassant(board[x + 1][y], piecePosition)) {
+          if (!right.chessPiece) {
+            reachable.push(right);
+            right.enpassant = board[x + 1][y];
+          }
         }
       }
     }

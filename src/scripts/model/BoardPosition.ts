@@ -3,6 +3,15 @@ import { PieceType } from "./ChessPieces/PieceType";
 
 export class BoardPosition {
   private _chessPiece: ChessPiece;
+  private _enpassant: BoardPosition;
+
+  get enpassant(): BoardPosition {
+    return this._enpassant;
+  }
+
+  set enpassant(value: BoardPosition) {
+    this._enpassant = value;
+  }
 
   public samePieceColor(boardPosition: BoardPosition): boolean {
     return this.chessPiece?.color === boardPosition.chessPiece?.color;
@@ -20,12 +29,6 @@ export class BoardPosition {
     } else {
       this.chessPiece.upgrade(type);
     }
-  }
-
-  public movePiece(targetPosition: BoardPosition) {
-    targetPosition.chessPiece = this.chessPiece;
-    this.chessPiece = null;
-    //todo upgrade pawna
   }
 
   get x(): number {

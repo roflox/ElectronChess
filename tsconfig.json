@@ -3,14 +3,12 @@
     "module": "CommonJS",
     "noImplicitAny": true,
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "build/scripts",
     "baseUrl": ".",
     "target": "es6",
     "paths": {
       "*": ["node_modules/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/scripts/**/*"]
 }

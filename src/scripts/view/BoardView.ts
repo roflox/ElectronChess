@@ -9,6 +9,17 @@ export class BoardView {
     this.board = document.getElementById(boardElement);
   }
 
+  public restart(): void {
+    while (this.board.lastElementChild) {
+      this.board.removeChild(this.board.lastElementChild);
+    }
+    this.renderBoard();
+  }
+
+  public addEventListenerForElement(id: string, listener: EventListener): void {
+    document.getElementById(id).addEventListener("click", listener);
+  }
+
   //this renders game board
   public renderBoard(): void {
     const alphabet = " abcdefgh ";
@@ -74,7 +85,7 @@ export class BoardView {
   public highlightSquares(positions: BoardPosition[]) {
     for (const position of positions) {
       const square = this.getSquare(position.x, position.y);
-      if (position.chessPiece) {
+      if (position.chessPiece || position.enpassant) {
         square.classList.add("highlighted-enemy");
       } else {
         square.classList.add("highlighted");
@@ -97,6 +108,18 @@ export class BoardView {
     sourceSquare.classList.remove(source.chessPiece.toString());
     if (target.chessPiece) {
       targetSquare.classList.remove(target.chessPiece.toString());
+    } else if (target.enpassant) {
+      if (target.y === 5) {
+        console.log(target.enpassant);
+        //
+        this.getSquare(target.x, 4).classList.remove(
+          target.enpassant.chessPiece.toString()
+        );
+      } else {
+        this.getSquare(target.x, 3).classList.remove(
+          target.enpassant.chessPiece.toString()
+        );
+      }
     }
     targetSquare.classList.add(source.chessPiece.toString());
   }

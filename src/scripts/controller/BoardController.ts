@@ -27,5 +27,10 @@ export class BoardController {
         }
       }
     });
+    bView.addEventListenerForElement("restart-button", function() {
+      bView.restart();
+      bModel.restart();
+      bView.drawChessPieces(bModel.positions);
+    });
   }
 }
