@@ -19,22 +19,25 @@ function createWindow() {
   mainWindow.loadFile(path.join(__dirname, "../index.html"));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+
   mainWindow.setMenu(null);
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {
     // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
+    // in an arra should delete the corresponding element.
     mainWindow = null;
   });
   globalShortcut.register("f5", function() {
-    console.log("f5 is pressed");
+    // console.log("f5 is pressed");
     mainWindow.reload();
   });
   globalShortcut.register("CommandOrControl+R", function() {
-    console.log("CommandOrControl+R is pressed");
+    // console.log("CommandOrControl+R is pressed");
     mainWindow.reload();
+  });
+  globalShortcut.register("f11", function() {
+    // console.log("CommandOrControl+R is pressed");
+    mainWindow.webContents.toggleDevTools();
   });
   mainWindow.maximize();
 }

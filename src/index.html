@@ -7,12 +7,34 @@
     <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
   </head>
   <body>
-    <!-- You can also require other files to run in this process -->
-    <input value="Restart game" type="button" name="restart" id="restart-button">
-    <div id="chessboard"></div>
-    <!--    <script>-->
-    <!--      let exports = { __esModule: true };-->
-    <!--    </script>-->
-    <script src="scripts/renderer.js"></script>
+    <span class="modal" id="upgradeModal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Pick your new figure.</h2>
+        </div>
+        <div class="modal-body">
+          <tr>
+            <td id="modal-queen" class="bishop-black"></td>
+            <td id="modal-rook"></td>
+            <td id="modal-knight"></td>
+            <td id="modal-bishop"></td>
+          </tr>
+        </div>
+      </div>
+    </span>
+    <div>
+      <input
+        value="Restart game"
+        type="button"
+        name="restart"
+        id="restart-button"
+      />
+      <table id="chessboard"></table>
+
+      <!--    <script>-->
+      <!--      let exports = { __esModule: true };-->
+      <!--    </script>-->
+      <script src="../build/scripts/renderer.js"></script>
+    </div>
   </body>
 </html>

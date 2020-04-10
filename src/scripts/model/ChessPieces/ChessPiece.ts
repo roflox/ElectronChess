@@ -16,6 +16,7 @@ export class ChessPiece {
   private _movementStrategy: MovementStrategy;
   private _pieceType: PieceType;
   private _moves: BoardPosition[] = [];
+  public _movedLastTurn: boolean = false;
 
   public constructor(
     pieceType: PieceType,
@@ -69,6 +70,7 @@ export class ChessPiece {
 
   public addMove(boardPosition: BoardPosition) {
     this._moves.push(boardPosition);
+    this._movedLastTurn = true;
   }
 
   get moves(): BoardPosition[] {

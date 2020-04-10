@@ -1,24 +1,21 @@
 #chessboard {
-  width: 800px;
-  height: 800px;
-  margin: 20px;
+  width: 900px;
+  height: 900px;
+  margin: 20px auto;
   border: 25px solid #333;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 td {
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
   width: 80px;
   height: 80px;
-  float: left;
   font-size: 50px;
   text-align: center;
-  display: table-cell;
+  /*display: table-cell;*/
   vertical-align: middle;
-  /*border-collapse: collapse;*/
+  margin: 0;
+  padding: 0;
 }
 .black {
   background-color: #d18b47;
@@ -42,103 +39,134 @@ td {
 /*}*/
 
 .selected {
-  /*border: green;*/
-  /*border: 1px solid green;*/
-  background-color: green;
-}
-.selected:hover {
-  /*border: green;*/
-  /*border: 1px solid green;*/
-  background-color: #598000;
+  box-shadow: inset 0 0 0 7px green;
 }
 .highlighted {
-  background-color: #4e78ff;
+  box-shadow: inset 0 0 0 7px #4e78ff;
 }
 
 .highlighted-enemy {
-  background-color: darkred;
+  box-shadow: inset 0 0 0 7px darkred;
 }
 
 .pawn-black {
-  background-image: url(icons/black/Chess_pdt45.svg);
+  background-image: url(../icons/black/Chess_pdt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .pawn-white {
-  background-image: url(icons/white/Chess_plt45.svg);
+  background-image: url(../build/icons/white/Chess_plt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .rook-black {
-  background-image: url(icons/black/Chess_rdt45.svg);
+  background-image: url(../icons/black/Chess_rdt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .rook-white {
-  background-image: url(icons/white/Chess_rlt45.svg);
+  background-image: url(../build/icons/white/Chess_rlt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .knight-black {
-  background-image: url(icons/black/Chess_ndt45.svg);
+  background-image: url(../build/icons/black/Chess_ndt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .knight-white {
-  background-image: url(icons/white/Chess_nlt45.svg);
+  background-image: url(../build/icons/white/Chess_nlt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .bishop-black {
-  background-image: url(icons/black/Chess_bdt45.svg);
+  background-image: url(../build/icons/black/Chess_bdt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .bishop-white {
-  background-image: url(icons/white/Chess_blt45.svg);
+  background-image: url(../icons/white/Chess_blt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .queen-black {
-  background-image: url(icons/black/Chess_qdt45.svg);
+  background-image: url(../build/icons/black/Chess_qdt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .queen-white {
-  background-image: url(icons/white/Chess_qlt45.svg);
+  background-image: url(../icons/white/Chess_qlt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .king-black {
-  background-image: url(icons/black/Chess_kdt45.svg);
+  background-image: url(../build/icons/black/Chess_kdt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
 }
 
 .king-white {
-  background-image: url(icons/white/Chess_klt45.svg);
+  background-image: url(../icons/white/Chess_klt45.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }

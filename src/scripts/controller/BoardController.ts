@@ -4,7 +4,7 @@ import { BoardModel } from "../model/BoardModel";
 export class BoardController {
   constructor() {
     const bModel: BoardModel = new BoardModel();
-    const bView: BoardView = new BoardView("chessboard");
+    const bView: BoardView = new BoardView("chessboard", "upgradeModal");
     bView.renderBoard();
     bView.drawChessPieces(bModel.positions);
     bView.addEventListenerForSquares(function() {
@@ -20,7 +20,10 @@ export class BoardController {
           bView.selectSquare(result.selected);
         } else if (result.moving) {
           bView.replaceFigure(result.selected, bModel.getPosition(x, y));
-          bModel.movePiece(x, y);
+          if (bModel.movePiece(x, y)?.upgrading) {
+            console.log("upgrading");
+            bView.upgradePawn(x, y);
+          }
           bView.unhighlightSquares();
           bView.unselectSquare();
           //tady prohozeni hrace

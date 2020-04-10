@@ -89,7 +89,7 @@ export class BoardModel {
     };
   }
 
-  public movePiece(x: number, y: number) {
+  public movePiece(x: number, y: number): { upgrading?: boolean } {
     const position = this._positions[x][y];
     if (
       !position.chessPiece &&
@@ -101,14 +101,24 @@ export class BoardModel {
       }
     }
     position.chessPiece = this._selected.chessPiece;
-    position.chessPiece.addMove(position);
     this._selected.chessPiece = null;
     this._selected = null;
     for (const row of this._positions) {
-      for (const position of row) {
-        position.enpassant = null;
+      for (const rowPosition of row) {
+        rowPosition.enpassant = null;
+        if (rowPosition.chessPiece) {
+          rowPosition.chessPiece._movedLastTurn = false;
+        }
       }
     }
+    position.chessPiece.addMove(position);
+    if (
+      (position.y === 0 || position.y === 7) &&
+      position.chessPiece.type === PieceType.Pawn
+    ) {
+      return { upgrading: true };
+    }
+    return;
   }
 
   public getReachableForPosition(x: number, y: number) {

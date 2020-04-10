@@ -4,9 +4,11 @@ export class BoardView {
   private readonly board: HTMLElement;
   private selectedSquare: Element;
   private highlightedSquares: Element[] = [];
+  private readonly modal: HTMLElement;
 
-  constructor(boardElement: string) {
+  constructor(boardElement: string, modalElement: string) {
     this.board = document.getElementById(boardElement);
+    this.modal = document.getElementById(modalElement);
   }
 
   public restart(): void {
@@ -94,12 +96,25 @@ export class BoardView {
     }
   }
 
+  private displayModal() {
+    this.modal.style.display = "block";
+  }
+
+  private hideModal() {
+    this.modal.style.display = null;
+  }
+
   public unhighlightSquares() {
     while (this.highlightedSquares.length !== 0) {
       const square = this.highlightedSquares.pop();
       square.classList.remove("highlighted");
       square.classList.remove("highlighted-enemy");
     }
+  }
+
+  public upgradePawn(x: number, y: number) {
+    const square = this.getSquare(x, y);
+    this.displayModal();
   }
 
   public replaceFigure(source: BoardPosition, target: BoardPosition) {

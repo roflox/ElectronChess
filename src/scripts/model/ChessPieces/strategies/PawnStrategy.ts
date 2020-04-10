@@ -62,6 +62,7 @@ export class PawnStrategy extends MovementStrategy {
         const right = board[x + 1][y - -1 * direction];
         if (this.checkForEnPassant(board[x + 1][y], piecePosition)) {
           if (!right.chessPiece) {
+            console.log("wrong");
             reachable.push(right);
             right.enpassant = board[x + 1][y];
           }
@@ -91,11 +92,15 @@ export class PawnStrategy extends MovementStrategy {
     position: BoardPosition,
     currentPosition: BoardPosition
   ): boolean {
-    if (position.chessPiece) {
+    if (
+      position.chessPiece &&
+      (currentPosition.y === 4 || currentPosition.y === 3)
+    ) {
       if (!position.samePieceColor(currentPosition)) {
         if (
           position.chessPiece.moves.length === 1 &&
-          position.chessPiece.type === PieceType.Pawn
+          position.chessPiece.type === PieceType.Pawn &&
+          position.chessPiece._movedLastTurn
         ) {
           return true;
         }
