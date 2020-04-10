@@ -1,8 +1,8 @@
-import { BoardPosition } from "./BoardPosition";
-import { ChessFactory } from "./ChessPieces/ChessFactory";
-import { Player } from "./Player";
-import { ChessPiece } from "./ChessPieces/ChessPiece";
-import { PieceType } from "./ChessPieces/PieceType";
+import {BoardPosition} from "./BoardPosition";
+import {ChessFactory} from "./ChessPieces/ChessFactory";
+import {Player} from "./Player";
+import {ChessPiece} from "./ChessPieces/ChessPiece";
+import {PieceType} from "./ChessPieces/PieceType";
 
 export class BoardModel {
   private _positions: BoardPosition[][];
@@ -42,7 +42,7 @@ export class BoardModel {
       this._whitePlayer
     );
     this.positions[5][3].chessPiece = new ChessPiece(
-      PieceType.Knight,
+      PieceType.King,
       this._blackPlayer
     );
     this.positions[4][4].chessPiece = new ChessPiece(
@@ -122,14 +122,20 @@ export class BoardModel {
   }
 
   public getReachableForPosition(x: number, y: number) {
-    if (this._positions[x][y].chessPiece) {
-      return this._positions[x][y].chessPiece?.getReachablePositions(
-        this._positions,
-        this._positions[x][y]
-      );
-    } else {
-      return null;
+    const position = this._positions[x][y];
+    if(!position.chessPiece){
+      return []
     }
+
+    const reachable =  this._positions[x][y].getReachablePositionsForChessPiece(this._positions);
+    // console.table(reachable);
+    console.log("before calculating");
+    if(position.chessPiece.type===PieceType.King){
+      for (const pos of reachable){
+        //todo some check
+      }
+    }
+    return reachable;
   }
 
   public getPosition(x: number, y: number): BoardPosition {
@@ -156,5 +162,17 @@ export class BoardModel {
       }
     }
     return false;
+  }
+
+  private getPositionsOfOnePlayer(player: Player): BoardPosition[] {
+    const owned: BoardPosition[] = [];
+    for (const row of this._positions) {
+      for (const cell of row) {
+        if (cell.chessPiece?.color === player.color) {
+          owned.push(cell);
+        }
+      }
+    }
+    return owned;
   }
 }

@@ -98,6 +98,7 @@ export class BoardView {
 
   private displayModal() {
     this.modal.style.display = "block";
+    console.log(this.modal.children);
   }
 
   private hideModal() {
@@ -114,6 +115,7 @@ export class BoardView {
 
   public upgradePawn(x: number, y: number) {
     const square = this.getSquare(x, y);
+    //todo v pripade multiplayeru tak tohle vubec nedelat, a vyckat na upgrade od enemyho
     this.displayModal();
   }
 
@@ -126,7 +128,6 @@ export class BoardView {
     } else if (target.enpassant) {
       if (target.y === 5) {
         console.log(target.enpassant);
-        //
         this.getSquare(target.x, 4).classList.remove(
           target.enpassant.chessPiece.toString()
         );

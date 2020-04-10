@@ -1,4 +1,4 @@
-#chessboard {
+table {
   width: 900px;
   height: 900px;
   margin: 20px auto;
@@ -12,7 +12,6 @@ td {
   height: 80px;
   font-size: 50px;
   text-align: center;
-  /*display: table-cell;*/
   vertical-align: middle;
   margin: 0;
   padding: 0;
