@@ -52,4 +52,6 @@ export class BoardPosition {
   set chessPiece(value: ChessPiece) {
     this._chessPiece = value;
   }
+
+
 }

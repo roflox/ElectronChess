@@ -73,7 +73,7 @@ export class RookStrategy implements MovementStrategy {
       }
     }
     //todo přidat ten další trash
-    console.log(reachableAfterMovement);
+    // console.log(reachableAfterMovement);
     // console.log(reachableAfterMovement.length);
     return { reachable: reachable, reachableAfterMovement:reachableAfterMovement };
   }

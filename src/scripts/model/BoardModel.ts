@@ -4,6 +4,7 @@ import { Player } from "./Player";
 import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { PieceType } from "./ChessPieces/PieceType";
 import { Color } from "./ChessPieces/Color";
+import set = Reflect.set;
 
 export class BoardModel {
   private _positions: BoardPosition[][];
@@ -131,25 +132,34 @@ export class BoardModel {
     const result = this._positions[x][y].getReachablePositionsForChessPiece(
       this._positions
     );
+
     // console.table(reachable);
     // console.log("before calculating");
+    const player =
+      position.chessPiece.color === Color.white
+        ? this._blackPlayer
+        : this._whitePlayer;
     if (position.chessPiece.type === PieceType.King) {
+      const positions: Set<BoardPosition> = new Set();
       for (const pos of result.reachable) {
-        // this.checkPosition(pos, this._positions);
-        const player =
-          position.chessPiece.color === Color.white
-            ? this._whitePlayer
-            : this._blackPlayer;
         const piecePositions = this.getPositionsOfOnePlayer(player);
         for (const pieceP of piecePositions) {
           const temp = pieceP.getReachablePositionsForChessPiece(
             this._positions
           );
-          const reachable = temp.reachable.concat(temp.reachableAfterMovement);
+          temp.reachable.forEach(x => {
+            positions.add(x);
+          });
+          temp.reachableAfterMovement?.forEach(x => {
+            positions.add(x);
+          });
         }
-
-        // console.log(pos);
       }
+      for (const temp of result.reachable) {
+      }
+      result.reachable = result.reachable.filter(pos => {
+        return !positions.has(pos);
+      });
     }
     return result;
   }

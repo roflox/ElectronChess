@@ -36,7 +36,7 @@ export class BishopStrategy extends MovementStrategy {
           const position = board[i][j];
           if (!this.thirdSectorBlocked) {
             if (this.isReachable(position, piecePosition, 3)) {
-              console.log("addable");
+              // console.log("addable");
               reachable.push(position);
             }
           }
@@ -76,7 +76,7 @@ export class BishopStrategy extends MovementStrategy {
     this.fourthSectorBlocked = false;
     // console.log(reachable);
     //todo přidat ten trash
-    return {reachable:reachable};
+    return {reachable:reachable,reachableAfterMovement:[]};
   }
 
   private isReachable(
