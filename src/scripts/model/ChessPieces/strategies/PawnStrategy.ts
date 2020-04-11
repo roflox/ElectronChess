@@ -9,7 +9,7 @@ export class PawnStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): BoardPosition[] {
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
     const reachable: BoardPosition[] = [];
     const direction: number =
       piecePosition.chessPiece.color === Color.black ? -1 : 1;
@@ -70,7 +70,7 @@ export class PawnStrategy extends MovementStrategy {
       }
     }
     //enPassantRight
-    return reachable;
+    return { reachable: reachable };
   }
 
   private checkDiagonalPosition(

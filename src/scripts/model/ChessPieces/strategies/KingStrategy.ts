@@ -7,28 +7,28 @@ export class KingStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): BoardPosition[] {
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
     //horizontal
     const reachable: BoardPosition[] = [];
     const y = piecePosition.y;
     const x = piecePosition.x;
     if (x !== 7) {
-      this.checkPosition(board[x + 1][y], piecePosition, reachable);
-      this.checkPosition(board[x + 1][y + 1], piecePosition, reachable);
-      this.checkPosition(board[x + 1][y - 1], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x + 1][y], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x + 1][y + 1], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x + 1][y - 1], piecePosition, reachable);
     }
     if (x !== 0) {
-      this.checkPosition(board[x - 1][y], piecePosition, reachable);
-      this.checkPosition(board[x - 1][y + 1], piecePosition, reachable);
-      this.checkPosition(board[x - 1][y - 1], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x - 1][y], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x - 1][y + 1], piecePosition, reachable);
+      KingStrategy.checkPosition(board[x - 1][y - 1], piecePosition, reachable);
     }
-    this.checkPosition(board[x][y + 1], piecePosition, reachable);
-    this.checkPosition(board[x][y - 1], piecePosition, reachable);
+    KingStrategy.checkPosition(board[x][y + 1], piecePosition, reachable);
+    KingStrategy.checkPosition(board[x][y - 1], piecePosition, reachable);
 
-    return reachable;
+    return { reachable: reachable };
   }
 
-  private checkPosition(
+  private static checkPosition(
     position: BoardPosition,
     currentPosition: BoardPosition,
     reachable: BoardPosition[]

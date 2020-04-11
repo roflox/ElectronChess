@@ -1,8 +1,9 @@
-import {BoardPosition} from "./BoardPosition";
-import {ChessFactory} from "./ChessPieces/ChessFactory";
-import {Player} from "./Player";
-import {ChessPiece} from "./ChessPieces/ChessPiece";
-import {PieceType} from "./ChessPieces/PieceType";
+import { BoardPosition } from "./BoardPosition";
+import { ChessFactory } from "./ChessPieces/ChessFactory";
+import { Player } from "./Player";
+import { ChessPiece } from "./ChessPieces/ChessPiece";
+import { PieceType } from "./ChessPieces/PieceType";
+import { Color } from "./ChessPieces/Color";
 
 export class BoardModel {
   private _positions: BoardPosition[][];
@@ -123,19 +124,34 @@ export class BoardModel {
 
   public getReachableForPosition(x: number, y: number) {
     const position = this._positions[x][y];
-    if(!position.chessPiece){
-      return []
+    if (!position.chessPiece) {
+      return null;
     }
 
-    const reachable =  this._positions[x][y].getReachablePositionsForChessPiece(this._positions);
+    const result = this._positions[x][y].getReachablePositionsForChessPiece(
+      this._positions
+    );
     // console.table(reachable);
-    console.log("before calculating");
-    if(position.chessPiece.type===PieceType.King){
-      for (const pos of reachable){
-        //todo some check
+    // console.log("before calculating");
+    if (position.chessPiece.type === PieceType.King) {
+      for (const pos of result.reachable) {
+        // this.checkPosition(pos, this._positions);
+        const player =
+          position.chessPiece.color === Color.white
+            ? this._whitePlayer
+            : this._blackPlayer;
+        const piecePositions = this.getPositionsOfOnePlayer(player);
+        for (const pieceP of piecePositions) {
+          const temp = pieceP.getReachablePositionsForChessPiece(
+            this._positions
+          );
+          const reachable = temp.reachable.concat(temp.reachableAfterMovement);
+        }
+
+        // console.log(pos);
       }
     }
-    return reachable;
+    return result;
   }
 
   public getPosition(x: number, y: number): BoardPosition {
@@ -156,7 +172,7 @@ export class BoardModel {
     if (!positions) {
       return false;
     }
-    for (const p of positions) {
+    for (const p of positions.reachable) {
       if (p.x == targetX && p.y == targetY) {
         return true;
       }

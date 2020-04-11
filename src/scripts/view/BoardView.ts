@@ -12,10 +12,12 @@ export class BoardView {
   }
 
   public restart(): void {
-    while (this.board.lastElementChild) {
-      this.board.removeChild(this.board.lastElementChild);
+    for (let x = 1; x < 9; x++) {
+      for (let y = 1; y < 9; y++) {
+        this.removeAllPieces(this.getSquare(x - 1, y - 1));
+      }
     }
-    this.renderBoard();
+    // this.renderBoard();
   }
 
   public addEventListenerForElement(id: string, listener: EventListener): void {
@@ -138,6 +140,25 @@ export class BoardView {
       }
     }
     targetSquare.classList.add(source.chessPiece.toString());
+  }
+
+  private removeAllPieces(square: Element): void {
+    if (square) {
+      square.classList.remove(
+        "pawn-white",
+        "pawn-black",
+        "queen-black",
+        "queen-white",
+        "rook-black",
+        "rook-white",
+        "bishop-black",
+        "bishop-white",
+        "knight-black",
+        "knight-white",
+        "king-black",
+        "king-white"
+      );
+    }
   }
 
   public drawChessPieces(positions: Readonly<BoardPosition[][]>): void {

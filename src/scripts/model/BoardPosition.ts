@@ -41,7 +41,7 @@ export class BoardPosition {
 
   public getReachablePositionsForChessPiece(
     board: BoardPosition[][]
-  ): BoardPosition[] {
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
     return this.chessPiece.getReachablePositions(board, this);
   }
 

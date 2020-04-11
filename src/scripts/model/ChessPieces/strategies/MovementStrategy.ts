@@ -6,5 +6,5 @@ export abstract class MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): BoardPosition[];
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] };
 }

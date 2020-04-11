@@ -1,7 +1,7 @@
 import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
-import {BishopStrategy, RookStrategy} from "./index";
+import { BishopStrategy, RookStrategy } from "./index";
 
 export class QueenStrategy extends MovementStrategy {
   private _bs = new BishopStrategy();
@@ -11,8 +11,14 @@ export class QueenStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): BoardPosition[] {
-    const bp = this._bs.getReachablePositions(board,piecePosition,player);
-    return this._rs.getReachablePositions(board,piecePosition,player).concat(bp);
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+    const bp = this._bs.getReachablePositions(board, piecePosition, player);
+    const rp = this._rs.getReachablePositions(board, piecePosition, player);
+    return {
+      reachable: bp.reachable.concat(rp.reachable),
+      reachableAfterMovement: bp.reachableAfterMovement.concat(
+        rp.reachableAfterMovement
+      )
+    };
   }
 }

@@ -16,7 +16,7 @@ export class BoardController {
           bView.unhighlightSquares();
           bView.unselectSquare();
         } else if (result.moving === false) {
-          bView.highlightSquares(bModel.getReachableForPosition(x, y));
+          bView.highlightSquares(bModel.getReachableForPosition(x, y).reachable);
           bView.selectSquare(result.selected);
         } else if (result.moving) {
           bView.replaceFigure(result.selected, bModel.getPosition(x, y));
@@ -30,6 +30,7 @@ export class BoardController {
         }
       }
     });
+
     bView.addEventListenerForElement("restart-button", function() {
       bView.restart();
       bModel.restart();

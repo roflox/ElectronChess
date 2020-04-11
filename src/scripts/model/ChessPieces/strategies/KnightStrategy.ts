@@ -7,7 +7,7 @@ export class KnightStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): BoardPosition[] {
+  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
     const reachable: BoardPosition[] = [];
     const x = piecePosition.x;
     const y = piecePosition.y;
@@ -71,6 +71,6 @@ export class KnightStrategy extends MovementStrategy {
       }
     }
 
-    return reachable;
+    return { reachable: reachable };
   }
 }
