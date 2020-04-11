@@ -16,6 +16,7 @@ export class BishopStrategy extends MovementStrategy {
     const xPos = piecePosition.x;
     const yPos = piecePosition.y;
     const reachable: BoardPosition[] = [];
+    const potentiallyReachable: BoardPosition[] = [];
     //4th sector
     for (let i = xPos + 1; i < 8; i++) {
       for (let j = yPos + 1; j < 8; j++) {
@@ -30,8 +31,8 @@ export class BishopStrategy extends MovementStrategy {
       }
     }
     //3rd sector
-    for (let i = xPos-1; i > -1; i--) {
-      for (let j = yPos+1; j < 8; j++) {
+    for (let i = xPos - 1; i > -1; i--) {
+      for (let j = yPos + 1; j < 8; j++) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
           if (!this.thirdSectorBlocked) {
@@ -44,8 +45,8 @@ export class BishopStrategy extends MovementStrategy {
       }
     }
     //2nd sector
-    for (let i = xPos-1; i > -1; i--) {
-      for (let j = yPos-1; j > -1; j--) {
+    for (let i = xPos - 1; i > -1; i--) {
+      for (let j = yPos - 1; j > -1; j--) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
           if (!this.secondSectorBlocked) {
@@ -57,8 +58,8 @@ export class BishopStrategy extends MovementStrategy {
       }
     }
     //1st sector
-    for (let i = xPos+1; i < 8; i++) {
-      for (let j = yPos-1; j > -1; j--) {
+    for (let i = xPos + 1; i < 8; i++) {
+      for (let j = yPos - 1; j > -1; j--) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
           if (!this.firstSectorBlocked) {
@@ -76,7 +77,7 @@ export class BishopStrategy extends MovementStrategy {
     this.fourthSectorBlocked = false;
     // console.log(reachable);
     //todo přidat ten trash
-    return {reachable:reachable,potentiallyReachable:[]};
+    return { reachable: reachable, potentiallyReachable: [] };
   }
 
   private isReachable(

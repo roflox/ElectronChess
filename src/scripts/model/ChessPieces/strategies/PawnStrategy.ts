@@ -9,10 +9,16 @@ export class PawnStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
+  ): {
+    reachable: BoardPosition[];
+    reachablePawn: BoardPosition[];
+    potentiallyReachable: BoardPosition[];
+  } {
     const reachable: BoardPosition[] = [];
     const direction: number =
       piecePosition.chessPiece.color === Color.black ? -1 : 1;
+    const potentiallyReachable: BoardPosition[] = [];
+    const reachablePawn: BoardPosition[] = [];
     const x = piecePosition.x;
     const y = piecePosition.y;
 
@@ -20,28 +26,40 @@ export class PawnStrategy extends MovementStrategy {
     if (!piecePosition.chessPiece.moved) {
       const position = board[x][y + direction * 2];
       if (this.checkVerticalPosition(position)) {
-        reachable.push(position);
+        reachablePawn.push(position);
       }
     }
 
     //normal movement
     const position = board[x][y - -1 * direction];
     if (this.checkVerticalPosition(position)) {
-      reachable.push(position);
+      reachablePawn.push(position);
     }
 
     //left diagonal
     if (x > 0) {
       const left = board[x - 1][y - -1 * direction];
-      if (this.checkDiagonalPosition(left, piecePosition)) {
-        reachable.push(left);
+      if (left.chessPiece) {
+        if (!position.samePieceColor(piecePosition)) {
+          reachable.push(left);
+        } else {
+          potentiallyReachable.push(left);
+        }
+      } else {
+        potentiallyReachable.push(left);
       }
     }
     //right Diagonal
     if (x < 7) {
       const right = board[x + 1][y - -1 * direction];
-      if (this.checkDiagonalPosition(right, piecePosition)) {
-        reachable.push(right);
+      if (right.chessPiece) {
+        if (!position.samePieceColor(piecePosition)) {
+          reachable.push(right);
+        } else {
+          potentiallyReachable.push(right);
+        }
+      } else {
+        potentiallyReachable.push(right);
       }
     }
 
@@ -62,7 +80,6 @@ export class PawnStrategy extends MovementStrategy {
         const right = board[x + 1][y - -1 * direction];
         if (this.checkForEnPassant(board[x + 1][y], piecePosition)) {
           if (!right.chessPiece) {
-            console.log("wrong");
             reachable.push(right);
             right.enpassant = board[x + 1][y];
           }
@@ -70,7 +87,11 @@ export class PawnStrategy extends MovementStrategy {
       }
     }
     //enPassantRight
-    return { reachable: reachable, potentiallyReachable: [] };
+    return {
+      reachable: reachable,
+      reachablePawn: reachablePawn,
+      potentiallyReachable: potentiallyReachable
+    };
   }
 
   private checkDiagonalPosition(

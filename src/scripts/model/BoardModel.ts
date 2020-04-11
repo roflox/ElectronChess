@@ -5,6 +5,7 @@ import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { PieceType } from "./ChessPieces/PieceType";
 import { Color } from "./ChessPieces/Color";
 import set = Reflect.set;
+import { timingSafeEqual } from "crypto";
 
 export class BoardModel {
   private _positions: BoardPosition[][];
@@ -75,14 +76,22 @@ export class BoardModel {
     if (!this._selected) {
       if (position.chessPiece) {
         this._selected = position;
-        return { selected: this._selected, unchanged: false, moving: false };
+        return {
+          selected: this._selected,
+          unchanged: false,
+          moving: false
+        };
       }
     } else if (this._selected.x == x && this._selected.y == y) {
       const temp = this._selected;
       this._selected = null;
       return { selected: temp, unselected: true, unchanged: false };
     } else if (this.canMoveTo(this._selected.x, this._selected.y, x, y)) {
-      return { selected: this._selected, moving: true, unchanged: false };
+      return {
+        selected: this._selected,
+        moving: true,
+        unchanged: false
+      };
     }
     return {
       selected: this._selected,
@@ -123,18 +132,21 @@ export class BoardModel {
     return;
   }
 
-  public getReachableForPosition(x: number, y: number) {
+  public getReachableForPosition(
+    x: number,
+    y: number
+  ): {
+    reachable: BoardPosition[];
+    reachablePawn?: BoardPosition[];
+    potentiallyReachable: BoardPosition[];
+  } {
     const position = this._positions[x][y];
     if (!position.chessPiece) {
       return null;
     }
-
     const result = this._positions[x][y].getReachablePositionsForChessPiece(
       this._positions
     );
-
-    // console.table(reachable);
-    // console.log("before calculating");
     const player =
       position.chessPiece.color === Color.white
         ? this._blackPlayer
@@ -178,11 +190,15 @@ export class BoardModel {
     targetX: number,
     targetY: number
   ): boolean {
-    const positions = this.getReachableForPosition(startX, startY);
-    if (!positions) {
+    const result = this.getReachableForPosition(startX, startY);
+    if (!result) {
       return false;
     }
-    for (const p of positions.reachable) {
+    let tmp = result.reachable;
+    if (result.reachablePawn) {
+      tmp = tmp.concat(result.reachablePawn);
+    }
+    for (const p of tmp) {
       if (p.x == targetX && p.y == targetY) {
         return true;
       }

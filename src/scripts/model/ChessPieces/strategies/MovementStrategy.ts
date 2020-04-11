@@ -6,5 +6,9 @@ export abstract class MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] };
+  ): {
+    reachable: BoardPosition[];
+    reachablePawn?: BoardPosition[];
+    potentiallyReachable: BoardPosition[];
+  };
 }

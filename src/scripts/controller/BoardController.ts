@@ -16,7 +16,12 @@ export class BoardController {
           bView.unhighlightSquares();
           bView.unselectSquare();
         } else if (result.moving === false) {
-          bView.highlightSquares(bModel.getReachableForPosition(x, y).reachable);
+          const tmp = bModel.getReachableForPosition(x, y);
+          if (tmp.reachablePawn) {
+            bView.highlightSquares(tmp.reachable.concat(tmp.reachablePawn));
+          } else {
+            bView.highlightSquares(tmp.reachable);
+          }
           bView.selectSquare(result.selected);
         } else if (result.moving) {
           bView.replaceFigure(result.selected, bModel.getPosition(x, y));
