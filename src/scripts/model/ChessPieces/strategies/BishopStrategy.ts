@@ -12,7 +12,7 @@ export class BishopStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
     const xPos = piecePosition.x;
     const yPos = piecePosition.y;
     const reachable: BoardPosition[] = [];
@@ -76,7 +76,7 @@ export class BishopStrategy extends MovementStrategy {
     this.fourthSectorBlocked = false;
     // console.log(reachable);
     //todo přidat ten trash
-    return {reachable:reachable,reachableAfterMovement:[]};
+    return {reachable:reachable,potentiallyReachable:[]};
   }
 
   private isReachable(

@@ -150,7 +150,7 @@ export class BoardModel {
           temp.reachable.forEach(x => {
             positions.add(x);
           });
-          temp.reachableAfterMovement?.forEach(x => {
+          temp.potentiallyReachable.forEach(x => {
             positions.add(x);
           });
         }

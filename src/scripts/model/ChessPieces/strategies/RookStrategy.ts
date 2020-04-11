@@ -10,10 +10,10 @@ export class RookStrategy implements MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
     let position: BoardPosition;
     const reachable: BoardPosition[] = [];
-    const reachableAfterMovement: BoardPosition[] = [];
+    const potentiallyReachable: BoardPosition[] = [];
     const yPos = piecePosition.y;
     const xPos = piecePosition.x;
     this.wasKing = false;
@@ -24,7 +24,7 @@ export class RookStrategy implements MovementStrategy {
           position,
           piecePosition,
           reachable,
-          reachableAfterMovement
+          potentiallyReachable
         )
       ) {
         break;
@@ -38,7 +38,7 @@ export class RookStrategy implements MovementStrategy {
           position,
           piecePosition,
           reachable,
-          reachableAfterMovement
+          potentiallyReachable
         )
       ) {
         break;
@@ -52,7 +52,7 @@ export class RookStrategy implements MovementStrategy {
           position,
           piecePosition,
           reachable,
-          reachableAfterMovement
+          potentiallyReachable
         )
       ) {
         break;
@@ -66,7 +66,7 @@ export class RookStrategy implements MovementStrategy {
           position,
           piecePosition,
           reachable,
-          reachableAfterMovement
+          potentiallyReachable
         )
       ) {
         break;
@@ -75,18 +75,18 @@ export class RookStrategy implements MovementStrategy {
     //todo přidat ten další trash
     // console.log(reachableAfterMovement);
     // console.log(reachableAfterMovement.length);
-    return { reachable: reachable, reachableAfterMovement:reachableAfterMovement };
+    return { reachable: reachable, potentiallyReachable:potentiallyReachable };
   }
 
   private addIfPossible(
     targetPosition: BoardPosition,
     currentPosition: BoardPosition,
     reachable: BoardPosition[],
-    reachableAfterMovement: BoardPosition[]
+    potentiallyReachable: BoardPosition[]
   ): boolean {
     if (!targetPosition.chessPiece) {
       if (this.wasKing) {
-        reachableAfterMovement.push(targetPosition);
+        potentiallyReachable.push(targetPosition);
       } else {
         reachable.push(targetPosition);
       }
@@ -100,6 +100,7 @@ export class RookStrategy implements MovementStrategy {
           return true;
         }
       }
+      potentiallyReachable.push(targetPosition);
       return false;
     }
   }

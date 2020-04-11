@@ -7,7 +7,7 @@ export class KingStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
     //horizontal
     const reachable: BoardPosition[] = [];
     const y = piecePosition.y;
@@ -25,7 +25,7 @@ export class KingStrategy extends MovementStrategy {
     KingStrategy.checkPosition(board[x][y + 1], piecePosition, reachable);
     KingStrategy.checkPosition(board[x][y - 1], piecePosition, reachable);
 
-    return { reachable: reachable };
+    return { reachable: reachable, potentiallyReachable:[] };
   }
 
   private static checkPosition(

@@ -11,13 +11,13 @@ export class QueenStrategy extends MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
     const bp = this._bs.getReachablePositions(board, piecePosition, player);
     const rp = this._rs.getReachablePositions(board, piecePosition, player);
     return {
       reachable: bp.reachable.concat(rp.reachable),
-      reachableAfterMovement: bp.reachableAfterMovement.concat(
-        rp.reachableAfterMovement
+      potentiallyReachable: bp.potentiallyReachable.concat(
+        rp.potentiallyReachable
       )
     };
   }

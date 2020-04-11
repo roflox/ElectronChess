@@ -56,7 +56,7 @@ export class ChessPiece {
   public getReachablePositions(
     board: BoardPosition[][],
     boardPosition: BoardPosition
-  ): { reachable: BoardPosition[]; reachableAfterMovement?: BoardPosition[] } {
+  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
     return this._movementStrategy.getReachablePositions(
       board,
       boardPosition,
