@@ -12,6 +12,6 @@ export class Player {
     const black = new Player(Color.black);
     white._enemy = black;
     black._enemy = white;
-    return {white:white,black:black};
+    return { white: white, black: black };
   }
 }

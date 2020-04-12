@@ -101,21 +101,6 @@ export class BoardModel {
   }
 
   public movePiece(movement: Movement): { upgrading?: boolean } {
-    // const position = this._positions[x][y];
-    //
-    // if (
-    //   !position.chessPiece &&
-    //   this._selected.chessPiece.type === PieceType.Pawn &&
-    //   position.enpassant
-    // ) {
-    //   // if (position.enpassant) {
-    //   //   position.enpassant.chessPiece = null;
-    //   // }
-    // }
-    // position.chessPiece = this._selected.chessPiece;
-    // this._selected.chessPiece.addMove(
-    //   new Movement(this._selected, position, MovementType.generic)
-    // );
     this._selected = null;
     for (const row of this._positions) {
       for (const rowPosition of row) {
@@ -134,14 +119,12 @@ export class BoardModel {
     return;
   }
 
-  public getAvailableMovementsForPosition(x: number, y: number): Movement[] {
+  public getAvailableMovesForPosition(x: number, y: number): Movement[] {
     const position = this._positions[x][y];
     if (!position.chessPiece) {
       return null;
     }
-    const result = this._positions[x][y].getReachablePositionsForChessPiece(
-      this._positions
-    );
+    const result = this._positions[x][y].getAvailableMoves(this._positions);
     const player =
       position.chessPiece.color === Color.white
         ? this._blackPlayer
@@ -151,9 +134,7 @@ export class BoardModel {
       for (const pos of result) {
         const piecePositions = this.getPositionsOfOnePlayer(player);
         for (const pieceP of piecePositions) {
-          const tmp = pieceP.getReachablePositionsForChessPiece(
-            this._positions
-          );
+          const tmp = pieceP.getAvailableMoves(this._positions);
           for (const movement of tmp) {
             if (
               movement.type === MovementType.normal ||
@@ -164,29 +145,25 @@ export class BoardModel {
           }
         }
       }
-      console.log(enemyMovements);
+
       return result.filter(move => {
         return !enemyMovements.has(move.to);
       });
     }
     return result;
   }
-  //
+
   public getPosition(x: number, y: number): BoardPosition {
     return this._positions[x][y];
   }
-  //
-  //   public getPositionOccupant(x: number, y: number) {
-  //     return this._positions[x][y].chessPiece;
-  //   }
-  //
+
   public canMoveTo(
     startX: number,
     startY: number,
     targetX: number,
     targetY: number
   ): boolean {
-    const availableMovements = this.getAvailableMovementsForPosition(
+    const availableMovements = this.getAvailableMovesForPosition(
       startX,
       startY
     );
@@ -206,7 +183,7 @@ export class BoardModel {
     }
     return false;
   }
-  //
+
   private getPositionsOfOnePlayer(player: Player): BoardPosition[] {
     const owned: BoardPosition[] = [];
     for (const row of this._positions) {

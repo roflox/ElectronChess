@@ -7,7 +7,7 @@ import { MovementType } from "../MovementType";
 export class BishopStrategy extends MovementStrategy {
   private blocked = false;
 
-  getReachablePositions(
+  getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player

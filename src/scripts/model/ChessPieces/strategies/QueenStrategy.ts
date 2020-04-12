@@ -8,13 +8,13 @@ export class QueenStrategy extends MovementStrategy {
   private _bs = new BishopStrategy();
   private _rs = new RookStrategy();
 
-  getReachablePositions(
+  getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
   ): Movement[] {
-    const bp = this._bs.getReachablePositions(board, piecePosition, player);
-    const rp = this._rs.getReachablePositions(board, piecePosition, player);
+    const bp = this._bs.getAvailableMoves(board, piecePosition, player);
+    const rp = this._rs.getAvailableMoves(board, piecePosition, player);
     return bp.concat(rp);
   }
 }

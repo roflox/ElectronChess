@@ -8,7 +8,7 @@ import { MovementType } from "../MovementType";
 export class RookStrategy implements MovementStrategy {
   private wasKing = false;
 
-  getReachablePositions(
+  getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player

@@ -5,7 +5,7 @@ import { Movement } from "../Movement";
 import { MovementType } from "../MovementType";
 
 export class KnightStrategy extends MovementStrategy {
-  getReachablePositions(
+  getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player

@@ -54,11 +54,11 @@ export class ChessPiece {
     }
   }
 
-  public getReachablePositions(
+  public getAvailableMoves(
     board: BoardPosition[][],
     boardPosition: BoardPosition
   ): Movement[] {
-    return this._movementStrategy.getReachablePositions(
+    return this._movementStrategy.getAvailableMoves(
       board,
       boardPosition,
       this._owner

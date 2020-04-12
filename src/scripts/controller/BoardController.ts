@@ -1,5 +1,6 @@
-import { BoardView } from "../view/BoardView";
-import { BoardModel } from "../model/BoardModel";
+import {BoardView} from "../view/BoardView";
+import {BoardModel} from "../model/BoardModel";
+import {MovementType} from "../model/ChessPieces/MovementType";
 
 export class BoardController {
   constructor() {
@@ -16,17 +17,14 @@ export class BoardController {
           bView.unhighlightSquares();
           bView.unselectSquare();
         } else if (result.moving === false) {
-          bView.highlightSquares(bModel.getAvailableMovementsForPosition(x, y));
+          bView.highlightSquares(bModel.getAvailableMovesForPosition(x, y));
           bView.selectSquare(result.selected);
         } else if (result.moving) {
-          // console.log("test");
-          const movement = bModel.getAvailableMovementsForPosition(
-            result.selected.x,
-            result.selected.y
-          ).filter(move => {
-            return move.to.x == x && move.to.y == y;
-          })[0];
-          // console.log(tmp);
+          const movement = bModel
+            .getAvailableMovesForPosition(result.selected.x, result.selected.y)
+            .filter(move => {
+              return move.to.x == x && move.to.y == y && move.type!==MovementType.potential;
+            })[0];
           bView.replaceFigure(movement);
           bModel.movePiece(movement);
           // if (bModel.movePiece(x, y)?.upgrading) {

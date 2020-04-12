@@ -31,10 +31,8 @@ export class BoardPosition {
     return this._y;
   }
 
-  public getReachablePositionsForChessPiece(
-    board: BoardPosition[][]
-  ): Movement[] {
-    return this.chessPiece.getReachablePositions(board, this);
+  public getAvailableMoves(board: BoardPosition[][]): Movement[] {
+    return this.chessPiece.getAvailableMoves(board, this);
   }
 
   get chessPiece(): ChessPiece {

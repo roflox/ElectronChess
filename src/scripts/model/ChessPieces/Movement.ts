@@ -13,6 +13,7 @@ export class Movement {
     if (this.type === MovementType.en_passant) {
       this.enpassant.chessPiece = null;
     }
+    console.log(this);
     this.to.chessPiece = this.from.chessPiece;
     this.to.chessPiece.addMove(this);
     this.from.chessPiece = null;

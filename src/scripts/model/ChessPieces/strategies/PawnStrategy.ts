@@ -7,7 +7,7 @@ import { Movement } from "../Movement";
 import { MovementType } from "../MovementType";
 
 export class PawnStrategy extends MovementStrategy {
-  getReachablePositions(
+  getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
@@ -21,23 +21,22 @@ export class PawnStrategy extends MovementStrategy {
     const x = piecePosition.x;
     const y = piecePosition.y;
 
-    //2x first movement
-    if (!piecePosition.chessPiece.moved) {
-      const position = board[x][y + direction * 2];
-      if (this.checkVerticalPosition(position)) {
-        // reachablePawn.push(position);
-        availableMovement.push(
-          new Movement(piecePosition, position, MovementType.pawn_movement)
-        );
-      }
-    }
-
     //normal movement
-    const position = board[x][y - -1 * direction];
+    let position = board[x][y - -1 * direction];
     if (this.checkVerticalPosition(position)) {
       availableMovement.push(
         new Movement(piecePosition, position, MovementType.pawn_movement)
       );
+      //2x first movement
+      if (!piecePosition.chessPiece.moved) {
+        position = board[x][y + direction * 2];
+        if (this.checkVerticalPosition(position)) {
+          // reachablePawn.push(position);
+          availableMovement.push(
+            new Movement(piecePosition, position, MovementType.pawn_movement)
+          );
+        }
+      }
     }
 
     //left diagonal
@@ -86,16 +85,14 @@ export class PawnStrategy extends MovementStrategy {
         const left = board[x - 1][y - -1 * direction];
         if (this.checkForEnPassant(board[x - 1][y], piecePosition)) {
           if (!left.chessPiece) {
-              availableMovement.push(
-                new Movement(
-                  piecePosition,
-                  left,
-                  MovementType.normal,
-                  board[x + 1][y]
-                )
-              );
-            // reachable.push(left);
-            // left.enpassant = board[x - 1][y];
+            availableMovement.push(
+              new Movement(
+                piecePosition,
+                left,
+                MovementType.en_passant,
+                board[x - 1][y]
+              )
+            );
           }
         }
       }
@@ -109,16 +106,15 @@ export class PawnStrategy extends MovementStrategy {
               new Movement(
                 piecePosition,
                 right,
-                MovementType.normal,
+                MovementType.en_passant,
                 board[x + 1][y]
               )
             );
-            // right.enpassant = board[x + 1][y];
           }
         }
       }
     }
-    //enPassantRight
+    console.log(availableMovement);
     return availableMovement;
   }
 
