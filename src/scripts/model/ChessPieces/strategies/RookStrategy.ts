@@ -45,6 +45,7 @@ export class RookStrategy implements MovementStrategy {
         break;
       }
     }
+    console.log(availableMovements);
     return availableMovements;
   }
 
@@ -66,17 +67,29 @@ export class RookStrategy implements MovementStrategy {
       return true;
     } else {
       if (!currentPosition.samePieceColor(targetPosition)) {
+        if (!this.wasKing) {
+          availableMovements.push(
+            new Movement(currentPosition, targetPosition, MovementType.normal)
+          );
+          if (targetPosition.chessPiece.type === PieceType.King) {
+            this.wasKing = true;
+            return true;
+          }
+        }
         availableMovements.push(
-          new Movement(currentPosition, targetPosition, MovementType.normal)
+          new Movement(currentPosition, targetPosition, MovementType.potential)
         );
-        if (targetPosition.chessPiece.type === PieceType.King) {
-          this.wasKing = true;
-          return true;
+      } else {
+        if (this.wasKing) {
+          availableMovements.push(
+            new Movement(
+              currentPosition,
+              targetPosition,
+              MovementType.potential
+            )
+          );
         }
       }
-      availableMovements.push(
-        new Movement(currentPosition, targetPosition, MovementType.potential)
-      );
       return false;
     }
   }
