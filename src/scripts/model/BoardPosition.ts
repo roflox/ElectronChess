@@ -1,17 +1,9 @@
 import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { PieceType } from "./ChessPieces/PieceType";
+import { Movement } from "./ChessPieces/Movement";
 
 export class BoardPosition {
   private _chessPiece: ChessPiece;
-  private _enpassant: BoardPosition;
-
-  get enpassant(): BoardPosition {
-    return this._enpassant;
-  }
-
-  set enpassant(value: BoardPosition) {
-    this._enpassant = value;
-  }
 
   public samePieceColor(boardPosition: BoardPosition): boolean {
     return this.chessPiece?.color === boardPosition.chessPiece?.color;
@@ -41,11 +33,7 @@ export class BoardPosition {
 
   public getReachablePositionsForChessPiece(
     board: BoardPosition[][]
-  ): {
-    reachable: BoardPosition[];
-    reachablePawn?: BoardPosition[];
-    potentiallyReachable: BoardPosition[];
-  } {
+  ): Movement[] {
     return this.chessPiece.getReachablePositions(board, this);
   }
 

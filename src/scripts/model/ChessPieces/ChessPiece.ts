@@ -11,12 +11,13 @@ import {
   QueenStrategy,
   RookStrategy
 } from "./strategies";
+import { Movement } from "./Movement";
 
 export class ChessPiece {
   private _movementStrategy: MovementStrategy;
   private _pieceType: PieceType;
-  private _moves: BoardPosition[] = [];
   public _movedLastTurn: boolean = false;
+  private _moves: Movement[] = [];
 
   public constructor(
     pieceType: PieceType,
@@ -56,11 +57,7 @@ export class ChessPiece {
   public getReachablePositions(
     board: BoardPosition[][],
     boardPosition: BoardPosition
-  ): {
-    reachable: BoardPosition[];
-    reachablePawn?: BoardPosition[];
-    potentiallyReachable: BoardPosition[];
-  } {
+  ): Movement[] {
     return this._movementStrategy.getReachablePositions(
       board,
       boardPosition,
@@ -72,12 +69,12 @@ export class ChessPiece {
     return this._moves.length !== 0;
   }
 
-  public addMove(boardPosition: BoardPosition) {
-    this._moves.push(boardPosition);
+  public addMove(move: Movement) {
+    this._moves.push(move);
     this._movedLastTurn = true;
   }
 
-  get moves(): BoardPosition[] {
+  get moves(): Movement[] {
     return this._moves;
   }
 

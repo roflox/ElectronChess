@@ -1,15 +1,16 @@
 import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
+import { Movement } from "../Movement";
+import { MovementType } from "../MovementType";
 
 export class KnightStrategy extends MovementStrategy {
   getReachablePositions(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
-    const reachable: BoardPosition[] = [];
-    const potentiallyReachable: BoardPosition[] = [];
+  ): Movement[] {
+    const availableMovements: Movement[] = [];
     const x = piecePosition.x;
     const y = piecePosition.y;
     let position;
@@ -17,17 +18,25 @@ export class KnightStrategy extends MovementStrategy {
       if (y > 0) {
         position = board[x - 2][y - 1];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
       if (y < 7) {
         position = board[x - 2][y + 1];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
     }
@@ -35,17 +44,25 @@ export class KnightStrategy extends MovementStrategy {
       if (y > 0) {
         position = board[x + 2][y - 1];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
       if (y < 7) {
         position = board[x + 2][y + 1];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
     }
@@ -53,17 +70,25 @@ export class KnightStrategy extends MovementStrategy {
       if (x > 0) {
         position = board[x - 1][y + 2];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
       if (x < 7) {
         position = board[x + 1][y + 2];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
     }
@@ -71,19 +96,29 @@ export class KnightStrategy extends MovementStrategy {
       if (x > 0) {
         position = board[x - 1][y - 2];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
+        } else {
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
       if (x < 7) {
         position = board[x + 1][y - 2];
         if (!position.samePieceColor(piecePosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(piecePosition, position, MovementType.potential)
+          );
         }
       }
     }
 
-    return { reachable: reachable, potentiallyReachable: potentiallyReachable };
+    return availableMovements;
   }
 }

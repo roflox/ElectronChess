@@ -1,89 +1,94 @@
 import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
+import { Movement } from "../Movement";
+import { MovementType } from "../MovementType";
 
 export class KingStrategy extends MovementStrategy {
   getReachablePositions(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
+  ): Movement[] {
     //horizontal
     const reachable: BoardPosition[] = [];
     const potentiallyReachable: BoardPosition[] = [];
+    const availableMovements: Movement[] = [];
     const y = piecePosition.y;
     const x = piecePosition.x;
     if (x !== 7) {
       KingStrategy.checkPosition(
         board[x + 1][y],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
       KingStrategy.checkPosition(
         board[x + 1][y + 1],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
       KingStrategy.checkPosition(
         board[x + 1][y - 1],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
     }
     if (x !== 0) {
       KingStrategy.checkPosition(
         board[x - 1][y],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
       KingStrategy.checkPosition(
         board[x - 1][y + 1],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
       KingStrategy.checkPosition(
         board[x - 1][y - 1],
         piecePosition,
-        reachable,
-        potentiallyReachable
+        availableMovements
       );
     }
     KingStrategy.checkPosition(
       board[x][y + 1],
       piecePosition,
-      reachable,
-      potentiallyReachable
+      availableMovements
     );
     KingStrategy.checkPosition(
       board[x][y - 1],
       piecePosition,
-      reachable,
-      potentiallyReachable
+      availableMovements
     );
 
-    return { reachable: reachable, potentiallyReachable: potentiallyReachable };
+    return availableMovements;
   }
+
+  private static checkCasting(
+    currentPosition: BoardPosition[],
+    board: BoardPosition[][]
+  ) {}
 
   private static checkPosition(
     position: BoardPosition,
     currentPosition: BoardPosition,
-    reachable: BoardPosition[],
-    potentiallyReachable: BoardPosition[]
+    availableMovements: Movement[]
   ): void {
     if (position) {
       if (position.chessPiece) {
         if (!position.samePieceColor(currentPosition)) {
-          reachable.push(position);
+          availableMovements.push(
+            new Movement(currentPosition, position, MovementType.normal)
+          );
         } else {
-          potentiallyReachable.push(position);
+          availableMovements.push(
+            new Movement(currentPosition, position, MovementType.potential)
+          );
         }
       } else {
-        reachable.push(position);
+        availableMovements.push(
+          new Movement(currentPosition, position, MovementType.normal)
+        );
       }
     }
   }

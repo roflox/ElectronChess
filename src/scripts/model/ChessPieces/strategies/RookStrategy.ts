@@ -2,6 +2,8 @@ import { BoardPosition } from "../../BoardPosition";
 import { MovementStrategy } from "./MovementStrategy";
 import { Player } from "../../Player";
 import { PieceType } from "../PieceType";
+import { Movement } from "../Movement";
+import { MovementType } from "../MovementType";
 
 export class RookStrategy implements MovementStrategy {
   private wasKing = false;
@@ -10,97 +12,71 @@ export class RookStrategy implements MovementStrategy {
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
+  ): Movement[] {
     let position: BoardPosition;
-    const reachable: BoardPosition[] = [];
-    const potentiallyReachable: BoardPosition[] = [];
+    const availableMovements: Movement[] = [];
     const yPos = piecePosition.y;
     const xPos = piecePosition.x;
     this.wasKing = false;
     for (let i = xPos - 1; i > -1; i--) {
       position = board[i][yPos];
-      if (
-        !this.addIfPossible(
-          position,
-          piecePosition,
-          reachable,
-          potentiallyReachable
-        )
-      ) {
+      if (!this.addIfPossible(position, piecePosition, availableMovements)) {
         break;
       }
     }
     this.wasKing = false;
     for (let i = xPos + 1; i < 8; i++) {
       position = board[i][yPos];
-      if (
-        !this.addIfPossible(
-          position,
-          piecePosition,
-          reachable,
-          potentiallyReachable
-        )
-      ) {
+      if (!this.addIfPossible(position, piecePosition, availableMovements)) {
         break;
       }
     }
     this.wasKing = false;
     for (let i = yPos - 1; i > -1; i--) {
       position = board[xPos][i];
-      if (
-        !this.addIfPossible(
-          position,
-          piecePosition,
-          reachable,
-          potentiallyReachable
-        )
-      ) {
+      if (!this.addIfPossible(position, piecePosition, availableMovements)) {
         break;
       }
     }
     this.wasKing = false;
     for (let i = yPos + 1; i < 8; i++) {
       position = board[xPos][i];
-      if (
-        !this.addIfPossible(
-          position,
-          piecePosition,
-          reachable,
-          potentiallyReachable
-        )
-      ) {
+      if (!this.addIfPossible(position, piecePosition, availableMovements)) {
         break;
       }
     }
-    //todo přidat ten další trash
-    // console.log(reachableAfterMovement);
-    // console.log(reachableAfterMovement.length);
-    return { reachable: reachable, potentiallyReachable:potentiallyReachable };
+    return availableMovements;
   }
 
   private addIfPossible(
     targetPosition: BoardPosition,
     currentPosition: BoardPosition,
-    reachable: BoardPosition[],
-    potentiallyReachable: BoardPosition[]
+    availableMovements: Movement[]
   ): boolean {
     if (!targetPosition.chessPiece) {
       if (this.wasKing) {
-        potentiallyReachable.push(targetPosition);
+        availableMovements.push(
+          new Movement(currentPosition, targetPosition, MovementType.potential)
+        );
       } else {
-        reachable.push(targetPosition);
+        availableMovements.push(
+          new Movement(currentPosition, targetPosition, MovementType.normal)
+        );
       }
       return true;
     } else {
       if (!currentPosition.samePieceColor(targetPosition)) {
-        reachable.push(targetPosition);
-        // console.log(targetPosition.chessPiece.type === PieceType.King);
+        availableMovements.push(
+          new Movement(currentPosition, targetPosition, MovementType.normal)
+        );
         if (targetPosition.chessPiece.type === PieceType.King) {
           this.wasKing = true;
           return true;
         }
       }
-      potentiallyReachable.push(targetPosition);
+      availableMovements.push(
+        new Movement(currentPosition, targetPosition, MovementType.potential)
+      );
       return false;
     }
   }

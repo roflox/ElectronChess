@@ -16,19 +16,23 @@ export class BoardController {
           bView.unhighlightSquares();
           bView.unselectSquare();
         } else if (result.moving === false) {
-          const tmp = bModel.getReachableForPosition(x, y);
-          if (tmp.reachablePawn) {
-            bView.highlightSquares(tmp.reachable.concat(tmp.reachablePawn));
-          } else {
-            bView.highlightSquares(tmp.reachable);
-          }
+          bView.highlightSquares(bModel.getAvailableMovementsForPosition(x, y));
           bView.selectSquare(result.selected);
         } else if (result.moving) {
-          bView.replaceFigure(result.selected, bModel.getPosition(x, y));
-          if (bModel.movePiece(x, y)?.upgrading) {
-            console.log("upgrading");
-            bView.upgradePawn(x, y);
-          }
+          // console.log("test");
+          const movement = bModel.getAvailableMovementsForPosition(
+            result.selected.x,
+            result.selected.y
+          ).filter(move => {
+            return move.to.x == x && move.to.y == y;
+          })[0];
+          // console.log(tmp);
+          bView.replaceFigure(movement);
+          bModel.movePiece(movement);
+          // if (bModel.movePiece(x, y)?.upgrading) {
+          //   console.log("upgrading");
+          //   bView.upgradePawn(x, y);
+          // }
           bView.unhighlightSquares();
           bView.unselectSquare();
           //tady prohozeni hrace

@@ -4,5 +4,13 @@ import { QueenStrategy } from "./QueenStrategy";
 import { KingStrategy } from "./KingStrategy";
 import { KnightStrategy } from "./KnightStrategy";
 import { BishopStrategy } from "./BishopStrategy";
-
-export { PawnStrategy, BishopStrategy, RookStrategy, QueenStrategy, KnightStrategy, KingStrategy };
+//
+export {
+  RookStrategy,
+  KnightStrategy,
+  PawnStrategy,
+  BishopStrategy,
+  QueenStrategy,
+  KingStrategy
+};
+// export { RookStrategy };

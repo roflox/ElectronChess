@@ -1,105 +1,97 @@
 import { MovementStrategy } from "./MovementStrategy";
 import { BoardPosition } from "../../BoardPosition";
 import { Player } from "../../Player";
+import { Movement } from "../Movement";
+import { MovementType } from "../MovementType";
 
 export class BishopStrategy extends MovementStrategy {
-  private fourthSectorBlocked = false;
-  private thirdSectorBlocked = false;
-  private secondSectorBlocked = false;
-  private firstSectorBlocked = false;
+  private blocked = false;
 
   getReachablePositions(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
     player: Player
-  ): { reachable: BoardPosition[]; potentiallyReachable: BoardPosition[] } {
+  ): Movement[] {
     const xPos = piecePosition.x;
     const yPos = piecePosition.y;
-    const reachable: BoardPosition[] = [];
-    const potentiallyReachable: BoardPosition[] = [];
+    const availableMovements: Movement[] = [];
     //4th sector
+    this.blocked = false;
     for (let i = xPos + 1; i < 8; i++) {
       for (let j = yPos + 1; j < 8; j++) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
-          if (!this.fourthSectorBlocked) {
-            if (this.isReachable(position, piecePosition, 4)) {
-              reachable.push(position);
+          if (!this.blocked) {
+            if (this.isReachable(position, piecePosition)) {
+              // reachable.push(position);
+              availableMovements.push(
+                new Movement(piecePosition, position, MovementType.normal)
+              );
             }
           }
         }
       }
     }
+    this.blocked = false;
     //3rd sector
     for (let i = xPos - 1; i > -1; i--) {
       for (let j = yPos + 1; j < 8; j++) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
-          if (!this.thirdSectorBlocked) {
-            if (this.isReachable(position, piecePosition, 3)) {
+          if (!this.blocked) {
+            if (this.isReachable(position, piecePosition)) {
               // console.log("addable");
-              reachable.push(position);
+              availableMovements.push(
+                new Movement(piecePosition, position, MovementType.normal)
+              );
             }
           }
         }
       }
     }
+    this.blocked = false;
     //2nd sector
     for (let i = xPos - 1; i > -1; i--) {
       for (let j = yPos - 1; j > -1; j--) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
-          if (!this.secondSectorBlocked) {
-            if (this.isReachable(position, piecePosition, 2)) {
-              reachable.push(position);
+          if (!this.blocked) {
+            if (this.isReachable(position, piecePosition)) {
+              availableMovements.push(
+                new Movement(piecePosition, position, MovementType.normal)
+              );
             }
           }
         }
       }
     }
+    this.blocked = false;
     //1st sector
     for (let i = xPos + 1; i < 8; i++) {
       for (let j = yPos - 1; j > -1; j--) {
         if (Math.abs(i - xPos) === Math.abs(j - yPos)) {
           const position = board[i][j];
-          if (!this.firstSectorBlocked) {
-            if (this.isReachable(position, piecePosition, 1)) {
-              reachable.push(position);
+          if (!this.blocked) {
+            if (this.isReachable(position, piecePosition)) {
+              availableMovements.push(
+                new Movement(piecePosition, position, MovementType.normal)
+              );
             }
           }
         }
       }
     }
-
-    this.firstSectorBlocked = false;
-    this.secondSectorBlocked = false;
-    this.thirdSectorBlocked = false;
-    this.fourthSectorBlocked = false;
     // console.log(reachable);
     //todo přidat ten trash
-    return { reachable: reachable, potentiallyReachable: [] };
+    return availableMovements;
   }
 
   private isReachable(
     position: BoardPosition,
-    currentPosition: BoardPosition,
-    sector: number
+    currentPosition: BoardPosition
   ): boolean {
     if (position.chessPiece) {
-      switch (sector) {
-        case 1:
-          this.firstSectorBlocked = true;
-          break;
-        case 2:
-          this.secondSectorBlocked = true;
-          break;
-        case 3:
-          this.thirdSectorBlocked = true;
-          break;
-        case 4:
-          this.fourthSectorBlocked = true;
-          break;
-      }
+      this.blocked = true;
       return !position.samePieceColor(currentPosition);
     }
     return true;

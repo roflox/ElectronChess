@@ -1,4 +1,6 @@
 import { BoardPosition } from "../model/BoardPosition";
+import { Movement } from "../model/ChessPieces/Movement";
+import { MovementType } from "../model/ChessPieces/MovementType";
 
 export class BoardView {
   private readonly board: HTMLElement;
@@ -86,15 +88,25 @@ export class BoardView {
     this.selectedSquare.classList.remove("selected");
   }
 
-  public highlightSquares(positions: BoardPosition[]) {
-    for (const position of positions) {
-      const square = this.getSquare(position.x, position.y);
-      if (position.chessPiece || position.enpassant) {
-        square.classList.add("highlighted-enemy");
-      } else {
-        square.classList.add("highlighted");
+  public highlightSquares(movements: Movement[]) {
+    for (const movement of movements) {
+      if (
+        movement.type === MovementType.normal ||
+        movement.type === MovementType.casting ||
+        movement.type === MovementType.en_passant ||
+        movement.type === MovementType.pawn_movement
+      ) {
+        const square = this.getSquare(movement.to.x, movement.to.y);
+        if (
+          movement.to.chessPiece ||
+          movement.type === MovementType.en_passant
+        ) {
+          square.classList.add("highlighted-enemy");
+        } else {
+          square.classList.add("highlighted");
+        }
+        this.highlightedSquares.push(square);
       }
-      this.highlightedSquares.push(square);
     }
   }
 
@@ -121,25 +133,24 @@ export class BoardView {
     this.displayModal();
   }
 
-  public replaceFigure(source: BoardPosition, target: BoardPosition) {
-    const sourceSquare = this.getSquare(source.x, source.y);
-    const targetSquare = this.getSquare(target.x, target.y);
-    sourceSquare.classList.remove(source.chessPiece.toString());
-    if (target.chessPiece) {
-      targetSquare.classList.remove(target.chessPiece.toString());
-    } else if (target.enpassant) {
-      if (target.y === 5) {
-        console.log(target.enpassant);
-        this.getSquare(target.x, 4).classList.remove(
-          target.enpassant.chessPiece.toString()
+  public replaceFigure(movement: Movement) {
+    const sourceSquare = this.getSquare(movement.from.x, movement.from.y);
+    const targetSquare = this.getSquare(movement.to.x, movement.to.y);
+    sourceSquare.classList.remove(movement.from.chessPiece.toString());
+    if (movement.to.chessPiece) {
+      targetSquare.classList.remove(movement.to.chessPiece.toString());
+    } else if (movement.type === MovementType.en_passant) {
+      if (movement.to.y === 5) {
+        this.getSquare(movement.to.x, 4).classList.remove(
+          movement.enpassant.chessPiece.toString()
         );
       } else {
-        this.getSquare(target.x, 3).classList.remove(
-          target.enpassant.chessPiece.toString()
+        this.getSquare(movement.to.x, 3).classList.remove(
+          movement.enpassant.chessPiece.toString()
         );
       }
     }
-    targetSquare.classList.add(source.chessPiece.toString());
+    targetSquare.classList.add(movement.from.chessPiece.toString());
   }
 
   private removeAllPieces(square: Element): void {
