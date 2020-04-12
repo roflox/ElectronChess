@@ -56,12 +56,13 @@ export class ChessPiece {
 
   public getAvailableMoves(
     board: BoardPosition[][],
-    boardPosition: BoardPosition
+    boardPosition: BoardPosition,
+    originalCaller?: boolean
   ): Movement[] {
     return this._movementStrategy.getAvailableMoves(
       board,
       boardPosition,
-      this._owner
+      originalCaller
     );
   }
 

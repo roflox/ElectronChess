@@ -110,11 +110,13 @@ export class BoardModel {
       }
     }
     movement.doMovement();
-    if (
-      movement.to.chessPiece.type === PieceType.Pawn &&
-      (movement.to.y === 0 || movement.to.y === 7)
-    ) {
-      return { upgrading: true };
+    if (movement.type !== MovementType.casting) {
+      if (
+        movement.to.chessPiece.type === PieceType.Pawn &&
+        (movement.to.y === 0 || movement.to.y === 7)
+      ) {
+        return { upgrading: true };
+      }
     }
     return;
   }
@@ -124,7 +126,10 @@ export class BoardModel {
     if (!position.chessPiece) {
       return null;
     }
-    const result = this._positions[x][y].getAvailableMoves(this._positions);
+    const result = this._positions[x][y].getAvailableMoves(
+      this._positions,
+      true
+    );
     const player =
       position.chessPiece.color === Color.white
         ? this._blackPlayer
@@ -176,7 +181,8 @@ export class BoardModel {
         movement.to.y == targetY &&
         (movement.type === MovementType.normal ||
           movement.type === MovementType.pawn_movement ||
-          movement.type === MovementType.en_passant)
+          movement.type === MovementType.en_passant ||
+          movement.type === MovementType.casting)
       ) {
         return true;
       }

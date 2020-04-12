@@ -1,6 +1,8 @@
 import { ChessPiece } from "./ChessPieces/ChessPiece";
 import { PieceType } from "./ChessPieces/PieceType";
 import { Movement } from "./ChessPieces/Movement";
+import { Color } from "./ChessPieces/Color";
+import { Player } from "./Player";
 
 export class BoardPosition {
   private _chessPiece: ChessPiece;
@@ -31,8 +33,15 @@ export class BoardPosition {
     return this._y;
   }
 
-  public getAvailableMoves(board: BoardPosition[][]): Movement[] {
-    return this.chessPiece.getAvailableMoves(board, this);
+  public getAvailableMoves(
+    board: BoardPosition[][],
+    originalCaller?: boolean
+  ): Movement[] {
+    return this.chessPiece.getAvailableMoves(board, this, originalCaller);
+  }
+
+  public canBeSeen(board: BoardPosition[][], color: Color): boolean {
+    return false;
   }
 
   get chessPiece(): ChessPiece {
@@ -41,5 +50,9 @@ export class BoardPosition {
 
   set chessPiece(value: ChessPiece) {
     this._chessPiece = value;
+  }
+
+  get occupantColor(): Color {
+    return this.chessPiece?.color;
   }
 }

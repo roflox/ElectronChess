@@ -11,7 +11,7 @@ export class RookStrategy implements MovementStrategy {
   getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
-    player: Player
+    originalCaller?: boolean
   ): Movement[] {
     let position: BoardPosition;
     const availableMovements: Movement[] = [];
@@ -45,7 +45,7 @@ export class RookStrategy implements MovementStrategy {
         break;
       }
     }
-    console.log(availableMovements);
+    // console.log(availableMovements);
     return availableMovements;
   }
 

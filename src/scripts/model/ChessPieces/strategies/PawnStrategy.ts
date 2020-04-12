@@ -10,7 +10,7 @@ export class PawnStrategy extends MovementStrategy {
   getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
-    player: Player
+    originalCaller?: boolean
   ): Movement[] {
     const reachable: BoardPosition[] = [];
     const direction: number =
@@ -114,7 +114,6 @@ export class PawnStrategy extends MovementStrategy {
         }
       }
     }
-    console.log(availableMovement);
     return availableMovement;
   }
 

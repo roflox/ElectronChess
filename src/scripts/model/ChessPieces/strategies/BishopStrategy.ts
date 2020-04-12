@@ -12,7 +12,7 @@ export class BishopStrategy extends MovementStrategy {
   getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
-    player: Player
+    originalCaller?: boolean
   ): Movement[] {
     const xPos = piecePosition.x;
     const yPos = piecePosition.y;

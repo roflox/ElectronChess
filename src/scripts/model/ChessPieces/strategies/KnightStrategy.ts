@@ -8,7 +8,7 @@ export class KnightStrategy extends MovementStrategy {
   getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
-    player: Player
+    originalCaller?: boolean
   ): Movement[] {
     const availableMovements: Movement[] = [];
     const x = piecePosition.x;

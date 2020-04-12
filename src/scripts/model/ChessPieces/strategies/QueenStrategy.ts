@@ -11,10 +11,10 @@ export class QueenStrategy extends MovementStrategy {
   getAvailableMoves(
     board: BoardPosition[][],
     piecePosition: BoardPosition,
-    player: Player
+    originalCaller?: boolean
   ): Movement[] {
-    const bp = this._bs.getAvailableMoves(board, piecePosition, player);
-    const rp = this._rs.getAvailableMoves(board, piecePosition, player);
+    const bp = this._bs.getAvailableMoves(board, piecePosition, originalCaller);
+    const rp = this._rs.getAvailableMoves(board, piecePosition, originalCaller);
     return bp.concat(rp);
   }
 }
