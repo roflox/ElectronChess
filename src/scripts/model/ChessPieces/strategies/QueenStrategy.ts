@@ -15,6 +15,8 @@ export class QueenStrategy extends MovementStrategy {
   ): Movement[] {
     const bp = this._bs.getAvailableMoves(board, piecePosition, originalCaller);
     const rp = this._rs.getAvailableMoves(board, piecePosition, originalCaller);
+    // console.log("queen");
+    // console.log(bp.concat(rp));
     return bp.concat(rp);
   }
 }

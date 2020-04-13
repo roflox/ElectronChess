@@ -1,6 +1,7 @@
 import {BoardView} from "../view/BoardView";
 import {BoardModel} from "../model/BoardModel";
 import {MovementType} from "../model/ChessPieces/MovementType";
+import {PieceType} from "../model/ChessPieces/PieceType";
 
 export class BoardController {
   constructor() {
@@ -23,14 +24,17 @@ export class BoardController {
           const movement = bModel
             .getAvailableMovesForPosition(result.selected.x, result.selected.y)
             .filter(move => {
-              return move.to.x == x && move.to.y == y && move.type!==MovementType.potential;
+              return (
+                move.to.x == x &&
+                move.to.y == y &&
+                move.type !== MovementType.potential
+              );
             })[0];
-          bView.replaceFigure(movement);
-          bModel.movePiece(movement);
-          // if (bModel.movePiece(x, y)?.upgrading) {
-          //   console.log("upgrading");
-          //   bView.upgradePawn(x, y);
-          // }
+          bView.movePiece(movement);
+          if (bModel.movePiece(movement)?.upgrading) {
+            // console.log("upgrading");
+            bView.displayModal(movement);
+          }
           bView.unhighlightSquares();
           bView.unselectSquare();
           //tady prohozeni hrace
@@ -43,5 +47,25 @@ export class BoardController {
       bModel.restart();
       bView.drawChessPieces(bModel.positions);
     });
+
+    bView.addEventListenerForUpgradeButtons(function (){
+      switch (this.id) {
+        case "modal-bishop":
+          bView.upgradePawn(PieceType.Bishop);
+          break
+        case "modal-queen":
+          bView.upgradePawn(PieceType.Queen);
+          break;
+        case "modal-rook":
+          bView.upgradePawn(PieceType.Rook);
+          break;
+        case "modal-knight":
+          bView.upgradePawn(PieceType.Knight);
+          break
+        default:
+          console.error("wtf?");
+      }
+      bView.hideModal();
+    })
   }
 }

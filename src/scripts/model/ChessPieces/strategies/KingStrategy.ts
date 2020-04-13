@@ -3,6 +3,7 @@ import { BoardPosition } from "../../BoardPosition";
 import { Movement } from "../Movement";
 import { MovementType } from "../MovementType";
 import { Color } from "../Color";
+import { PieceType } from "../PieceType";
 
 export class KingStrategy extends MovementStrategy {
   private availableMoves: Movement[] = [];
@@ -42,7 +43,6 @@ export class KingStrategy extends MovementStrategy {
     board: BoardPosition[][],
     y: number
   ) {
-    // console.log(!currentPosition.chessPiece.moved && (y === 0 || y === 7));
     if (!currentPosition.chessPiece.moved && (y === 0 || y === 7)) {
       let casting: boolean = true;
       const color =
@@ -50,49 +50,66 @@ export class KingStrategy extends MovementStrategy {
           ? Color.black
           : Color.white;
       this.getAllEnemyMovements(board, color);
+      const rightRook = board[7][y].chessPiece;
+      const leftRook = board[0][y].chessPiece;
       if (!this.enemyEndangeredPositions.has(currentPosition)) {
-        for (let x = 3; x > 0; x--) {
+        if (leftRook) {
           if (
-            board[x][y].chessPiece ||
-            this.enemyEndangeredPositions.has(board[x][y])
-          ) {
-            casting = false;
-            break;
+            leftRook.type === PieceType.Rook &&
+            !leftRook.moved &&
+            leftRook.color === currentPosition.occupantColor
+          )
+            for (let x = 3; x > 1; x--) {
+              if (
+                board[x][y].chessPiece ||
+                this.enemyEndangeredPositions.has(board[x][y])
+              ) {
+                casting = false;
+                break;
+              }
+            }
+          if (casting) {
+            this.availableMoves.push(
+              new Movement(
+                currentPosition,
+                board[0][y],
+                MovementType.casting,
+                null,
+                board[2][y],
+                board[3][y]
+              )
+            );
           }
-        }
-        if (casting) {
-          this.availableMoves.push(
-            new Movement(
-              currentPosition,
-              board[0][y],
-              MovementType.casting,
-              null,
-              board[2][y],
-              board[3][y]
-            )
-          );
         }
         casting = true;
-        for (let x = 5; x < 6; x++) {
+        if (rightRook) {
           if (
-            board[x][y].chessPiece ||
-            this.enemyEndangeredPositions.has(board[x][y])
+            rightRook.type === PieceType.Rook &&
+            !rightRook.moved &&
+            rightRook.color === currentPosition.occupantColor
           ) {
-            casting = false;
-            break;
+            for (let x = 5; x < 7; x++) {
+              if (
+                board[x][y].chessPiece ||
+                this.enemyEndangeredPositions.has(board[x][y])
+              ) {
+                casting = false;
+                break;
+              }
+            }
+            if (casting) {
+              this.availableMoves.push(
+                new Movement(
+                  currentPosition,
+                  board[7][y],
+                  MovementType.casting,
+                  null,
+                  board[5][y],
+                  board[6][y]
+                )
+              );
+            }
           }
-        }
-        if (casting) {
-          this.availableMoves.push(
-            new Movement(
-              currentPosition,
-              board[7][y],
-              MovementType.casting,
-              null,
-              board[5][y],
-              board[6][y]
-            )
-          );
         }
       }
     }

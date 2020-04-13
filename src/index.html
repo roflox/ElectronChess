@@ -7,21 +7,23 @@
     <link rel="stylesheet" type="text/css" href="index.css" media="screen" />
   </head>
   <body>
-    <span class="modal" id="upgradeModal">
+    <div class="modal" id="upgradeModal">
       <div class="modal-content">
         <div class="modal-header">
           <h2>Pick your new figure.</h2>
         </div>
         <div class="modal-body">
-          <tr>
-            <td id="modal-queen" class="bishop-black"></td>
-            <td id="modal-rook"></td>
-            <td id="modal-knight"></td>
-            <td id="modal-bishop"></td>
-          </tr>
+          <table id="pawnUpgrade">
+            <tr>
+              <td id="modal-queen" class="queen-black"></td>
+              <td id="modal-rook" class="rook-black"></td>
+              <td id="modal-knight" class="knight-black"></td>
+              <td id="modal-bishop" class="bishop-black"></td>
+            </tr>
+          </table>
         </div>
       </div>
-    </span>
+    </div>
     <div>
       <input
         value="Restart game"
@@ -34,7 +36,7 @@
       <!--    <script>-->
       <!--      let exports = { __esModule: true };-->
       <!--    </script>-->
-      <script src="../build/scripts/renderer.js"></script>
     </div>
+    <script src="../build/scripts/renderer.js"></script>
   </body>
 </html>

@@ -1,11 +1,10 @@
-import { BoardPosition } from "./BoardPosition";
-import { ChessFactory } from "./ChessPieces/ChessFactory";
-import { Player } from "./Player";
-import { ChessPiece } from "./ChessPieces/ChessPiece";
-import { PieceType } from "./ChessPieces/PieceType";
-import { Color } from "./ChessPieces/Color";
-import { Movement } from "./ChessPieces/Movement";
-import { MovementType } from "./ChessPieces/MovementType";
+import {BoardPosition} from "./BoardPosition";
+import {ChessFactory} from "./ChessPieces/ChessFactory";
+import {Player} from "./Player";
+import {PieceType} from "./ChessPieces/PieceType";
+import {Color} from "./ChessPieces/Color";
+import {Movement} from "./ChessPieces/Movement";
+import {MovementType} from "./ChessPieces/MovementType";
 
 export class BoardModel {
   private _positions: BoardPosition[][];
@@ -40,22 +39,22 @@ export class BoardModel {
     // console.table(this.positions);
     this.newGame();
     //test purposes only
-    this.positions[0][2].chessPiece = new ChessPiece(
-      PieceType.Queen,
-      this._whitePlayer
-    );
-    this.positions[5][3].chessPiece = new ChessPiece(
-      PieceType.King,
-      this._blackPlayer
-    );
-    this.positions[4][4].chessPiece = new ChessPiece(
-      PieceType.Bishop,
-      this._blackPlayer
-    );
-    this.positions[2][3].chessPiece = new ChessPiece(
-      PieceType.Rook,
-      this._whitePlayer
-    );
+    // this.positions[0][2].chessPiece = new ChessPiece(
+    //   PieceType.Queen,
+    //   this._whitePlayer
+    // );
+    // this.positions[5][3].chessPiece = new ChessPiece(
+    //   PieceType.King,
+    //   this._blackPlayer
+    // );
+    // this.positions[4][4].chessPiece = new ChessPiece(
+    //   PieceType.Bishop,
+    //   this._blackPlayer
+    // );
+    // this.positions[2][3].chessPiece = new ChessPiece(
+    //   PieceType.Rook,
+    //   this._whitePlayer
+    // );
   }
 
   public restart() {
@@ -152,7 +151,7 @@ export class BoardModel {
       }
 
       return result.filter(move => {
-        return !enemyMovements.has(move.to);
+        return !enemyMovements.has(move.to) || move.type===MovementType.casting;
       });
     }
     return result;

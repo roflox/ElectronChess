@@ -1,12 +1,23 @@
 import { BoardPosition } from "../model/BoardPosition";
 import { Movement } from "../model/ChessPieces/Movement";
 import { MovementType } from "../model/ChessPieces/MovementType";
+import { Color } from "../model/ChessPieces/Color";
+import {PieceType} from "../model/ChessPieces/PieceType";
 
 export class BoardView {
   private readonly board: HTMLElement;
   private selectedSquare: Element;
   private highlightedSquares: Element[] = [];
   private readonly modal: HTMLElement;
+  private readonly queen: HTMLElement = document.getElementById("modal-queen");
+  private readonly rook: HTMLElement = document.getElementById("modal-rook");
+  private readonly bishop: HTMLElement = document.getElementById(
+    "modal-bishop"
+  );
+  private readonly knight: HTMLElement = document.getElementById(
+    "modal-knight"
+  );
+  private upgradingPawn: BoardPosition;
 
   constructor(boardElement: string, modalElement: string) {
     this.board = document.getElementById(boardElement);
@@ -19,11 +30,17 @@ export class BoardView {
         this.removeAllPieces(this.getSquare(x - 1, y - 1));
       }
     }
-    // this.renderBoard();
   }
 
   public addEventListenerForElement(id: string, listener: EventListener): void {
     document.getElementById(id).addEventListener("click", listener);
+  }
+
+  public addEventListenerForUpgradeButtons(listener: EventListener): void {
+    this.rook.addEventListener("click", listener);
+    this.queen.addEventListener("click", listener);
+    this.knight.addEventListener("click", listener);
+    this.bishop.addEventListener("click", listener);
   }
 
   //this renders game board
@@ -53,7 +70,6 @@ export class BoardView {
         row.appendChild(cell);
       }
       row.appendChild(number.cloneNode(true));
-      // row.appendChild(number);
       this.board.appendChild(row);
     }
     this.board.appendChild(alphabetRow.cloneNode(true));
@@ -112,12 +128,23 @@ export class BoardView {
     }
   }
 
-  private displayModal() {
+  public displayModal(movement: Movement) {
     this.modal.style.display = "block";
-    console.log(this.modal.children);
+    if (movement.to.occupantColor === Color.white) {
+      this.knight.classList.replace("knight-black", "knight-white");
+      this.queen.classList.replace("queen-black", "queen-white");
+      this.rook.classList.replace("rook-black", "rook-white");
+      this.bishop.classList.replace("bishop-black", "bishop-white");
+    } else {
+      this.knight.classList.replace("knight-white", "knight-black");
+      this.queen.classList.replace("queen-white", "queen-black");
+      this.rook.classList.replace("rook-white", "rook-black");
+      this.bishop.classList.replace("bishop-white", "bishop-black");
+    }
+    this.upgradingPawn = movement.to;
   }
 
-  private hideModal() {
+  public hideModal() {
     this.modal.style.display = null;
   }
 
@@ -130,13 +157,14 @@ export class BoardView {
     }
   }
 
-  public upgradePawn(x: number, y: number) {
-    const square = this.getSquare(x, y);
-    //todo v pripade multiplayeru tak tohle vubec nedelat, a vyckat na upgrade od enemyho
-    this.displayModal();
+  public upgradePawn(type: PieceType) {
+    this.upgradingPawn.upgradePawn(type);
+    const square = this.getSquare(this.upgradingPawn.x,this.upgradingPawn.y);
+    this.removeAllPieces(square);
+    square.classList.add(this.upgradingPawn.chessPiece.toString());
   }
 
-  public replaceFigure(movement: Movement) {
+  public movePiece(movement: Movement) {
     if (movement.type !== MovementType.casting) {
       const sourceSquare = this.getSquare(movement.from.x, movement.from.y);
       const targetSquare = this.getSquare(movement.to.x, movement.to.y);

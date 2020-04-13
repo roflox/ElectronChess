@@ -12,11 +12,8 @@ export class PawnStrategy extends MovementStrategy {
     piecePosition: BoardPosition,
     originalCaller?: boolean
   ): Movement[] {
-    const reachable: BoardPosition[] = [];
     const direction: number =
       piecePosition.chessPiece.color === Color.black ? -1 : 1;
-    const potentiallyReachable: BoardPosition[] = [];
-    const reachablePawn: BoardPosition[] = [];
     const availableMovement: Movement[] = [];
     const x = piecePosition.x;
     const y = piecePosition.y;
@@ -43,7 +40,7 @@ export class PawnStrategy extends MovementStrategy {
     if (x > 0) {
       const left = board[x - 1][y - -1 * direction];
       if (left.chessPiece) {
-        if (!position.samePieceColor(piecePosition)) {
+        if (!left.samePieceColor(piecePosition)) {
           availableMovement.push(
             new Movement(piecePosition, left, MovementType.normal)
           );
@@ -62,7 +59,7 @@ export class PawnStrategy extends MovementStrategy {
     if (x < 7) {
       const right = board[x + 1][y - -1 * direction];
       if (right.chessPiece) {
-        if (!position.samePieceColor(piecePosition)) {
+        if (!right.samePieceColor(piecePosition)) {
           availableMovement.push(
             new Movement(piecePosition, right, MovementType.normal)
           );
@@ -78,6 +75,8 @@ export class PawnStrategy extends MovementStrategy {
       }
     }
 
+    console.log(availableMovement);
+    // console.log(availableMovement);
     //enPassantLeft
     if (y === 4 || y === 5) {
       //left
@@ -115,17 +114,6 @@ export class PawnStrategy extends MovementStrategy {
       }
     }
     return availableMovement;
-  }
-
-  private checkDiagonalPosition(
-    position: BoardPosition,
-    currentPosition: BoardPosition
-  ): boolean {
-    if (position.chessPiece) {
-      return !position.samePieceColor(currentPosition);
-    } else {
-      return false;
-    }
   }
 
   private checkVerticalPosition(position: BoardPosition): boolean {

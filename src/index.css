@@ -1,10 +1,15 @@
-table {
+#chessboard {
   width: 900px;
   height: 900px;
   margin: 20px auto;
   border: 25px solid #333;
   border-collapse: collapse;
   border-spacing: 0;
+}
+#pawnUpgrade{
+  width: 360px;
+  height: 90px;
+  margin: 20px auto;
 }
 td {
   user-select: none;

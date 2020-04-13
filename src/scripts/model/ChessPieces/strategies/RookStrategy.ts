@@ -45,7 +45,6 @@ export class RookStrategy implements MovementStrategy {
         break;
       }
     }
-    // console.log(availableMovements);
     return availableMovements;
   }
 
@@ -88,9 +87,18 @@ export class RookStrategy implements MovementStrategy {
               MovementType.potential
             )
           );
+          return false;
+        } else {
+          availableMovements.push(
+            new Movement(
+              currentPosition,
+              targetPosition,
+              MovementType.potential
+            )
+          );
+          return false;
         }
       }
-      return false;
     }
   }
 }
