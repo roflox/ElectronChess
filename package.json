@@ -2,65 +2,29 @@
   "name": "chess-game",
   "version": "1.0.0",
   "description": "Chess game",
-  "main": "./build/scripts/main.js",
+  "main": ".build/scripts/main.js",
+  "license": "",
   "author": {
     "name": "Jiří Pazdera",
     "email": "wow.brog@gmail.com",
     "url": "https://www.linkedin.com/in/ji%C5%99%C3%AD-pazdera-0043861a0/"
   },
   "scripts": {
-    "build": "tsc && yarn postbuild",
-    "postbuild": "copyfiles --flat src/index.html src/index.css build && copyfiles icons/**/* build",
-    "watch": "tsc -w",
-    "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "electron ./build/scripts/main.js",
-    "package": "electron-forge package",
-    "make": "yarn build && electron-forge package && electron-forge make"
+    "build": "../../../node_modules/.bin/tsc && yarn postbuild",
+    "postbuild": "../../../node_modules/.bin/copyfiles --flat src/index.html src/index.css build && copyfiles icons/**/* build",
+    "watch": "../../../node_modules/.bin/tsc -w",
+    "lint": "tslint -c tslint.json -p ../../../tsconfig.json",
+    "start": "../../../node_modules/.bin/electron ./build/scripts/main.js"
   },
   "devDependencies": {
-    "@electron-forge/cli": "latest",
-    "@electron-forge/maker-deb": "latest",
-    "@electron-forge/maker-rpm": "latest",
-    "@electron-forge/maker-squirrel": "latest",
-    "@electron-forge/maker-zip": "latest",
-    "@types/node": "^12.12.21",
     "copyfiles": "^2.2.0",
     "electron": "latest",
+    "electron-packager": "^14.2.1",
+    "electron-winstaller": "^4.0.0",
     "eslint": "^6.7.2",
     "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.19.1",
     "prettier": "^1.19.1",
     "typescript": "latest"
-  },
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.0",
-    "express": "^4.17.1"
-  },
-  "config": {
-    "forge": {
-      "packagerConfig": {},
-      "makers": [
-        {
-          "name": "@electron-forge/maker-squirrel",
-          "config": {
-            "name": "chess_game"
-          }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
-        }
-      ]
-    }
   }
 }
