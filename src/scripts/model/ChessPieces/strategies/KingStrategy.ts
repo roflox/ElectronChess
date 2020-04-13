@@ -75,8 +75,8 @@ export class KingStrategy extends MovementStrategy {
                 board[0][y],
                 MovementType.casting,
                 null,
-                board[2][y],
-                board[3][y]
+                board[3][y],
+                board[2][y]
               )
             );
           }

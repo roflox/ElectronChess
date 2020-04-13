@@ -15,7 +15,7 @@
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "electron ./build/scripts/main.js",
     "package": "electron-forge package",
-    "make": "electron-forge make"
+    "make": "yarn build && electron-forge package && electron-forge make"
   },
   "devDependencies": {
     "@electron-forge/cli": "latest",
