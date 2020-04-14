@@ -1,0 +1,12 @@
+{
+  "name": "sachy",
+  "version": "1.0.1",
+  "description": "For now it is chess board with highlighted movements for each individual chess figure on the board. I am planning to improve it.",
+  "main": "scripts/main.js",
+  "license": "",
+  "author": {
+    "name": "Jiří Pazdera",
+    "email": "wow.brog@gmail.com",
+    "url": "https://www.linkedin.com/in/ji%C5%99%C3%AD-pazdera-0043861a0/"
+  }
+}

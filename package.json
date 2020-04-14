@@ -2,7 +2,7 @@
   "name": "chess-game",
   "version": "1.0.0",
   "description": "Chess game",
-  "main": ".build/scripts/main.js",
+  "main": "build/scripts/main.js",
   "license": "",
   "author": {
     "name": "Jiří Pazdera",
@@ -10,11 +10,11 @@
     "url": "https://www.linkedin.com/in/ji%C5%99%C3%AD-pazdera-0043861a0/"
   },
   "scripts": {
-    "build": "../../../node_modules/.bin/tsc && yarn postbuild",
-    "postbuild": "../../../node_modules/.bin/copyfiles --flat src/index.html src/index.css build && copyfiles icons/**/* build",
-    "watch": "../../../node_modules/.bin/tsc -w",
-    "lint": "tslint -c tslint.json -p ../../../tsconfig.json",
-    "start": "../../../node_modules/.bin/electron ./build/scripts/main.js"
+    "build": "tsc && yarn postbuild",
+    "postbuild": "copyfiles --flat src/index.html src/index.css src/package.json build && copyfiles -u 1 src/resources/icons/**/* build",
+    "watch": "tsc -w",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
+    "start": "electron ./build/scripts/main.js"
   },
   "devDependencies": {
     "copyfiles": "^2.2.0",
