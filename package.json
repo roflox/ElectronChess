@@ -14,7 +14,8 @@
     "postbuild": "copyfiles --flat src/index.html src/index.css src/package.json build && copyfiles -u 1 src/resources/icons/**/* build",
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "electron ./build/scripts/main.js"
+    "start": "electron ./build/scripts/main.js",
+    "pack-win": "electron-packager ./build sachy --platform=win32 --arch=x64 --asar --executable-name=Šachy --out=./out"
   },
   "devDependencies": {
     "copyfiles": "^2.2.0",

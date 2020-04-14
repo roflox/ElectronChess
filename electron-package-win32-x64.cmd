@@ -1,1 +1,0 @@
-electron-packager ./build sachy --platform=win32 --arch=x64
