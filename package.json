@@ -15,7 +15,10 @@
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "start": "electron ./build/scripts/main.js",
-    "pack-win": "electron-packager ./build sachy --platform=win32 --arch=x64 --asar --executable-name=Šachy --out=./out"
+    "pack-win": "electron-packager ./build sachy --platform=win32 --arch=x64 --asar --executable-name=Šachy --overwrite --out=./out",
+    "pack-mac": "electron-packager ./build sachy --platform=darwin --arch=x64 --asar --overwrite --out=./out",
+    "pack-lin": "electron-packager ./build sachy --platform=linux --arch=x64 --asar --overwrite --out=./out",
+    "pack-all": "electron-packager ./build sachy --all --asar --executable-name=Šachy --overwrite --out=./out"
   },
   "devDependencies": {
     "copyfiles": "^2.2.0",
